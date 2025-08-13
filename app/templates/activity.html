@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if SETTINGS.OFFLINE and SETTINGS.OFFLINE != '0' %}
+<div class="alert alert-info">Offline mode enabled: charts and maps are disabled (no external CDNs or map tiles).</div>
+{% else %}
+<div class="row">
+  <div class="col-12 col-lg-6">
+    <div id="chart" style="height: 380px;"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div id="map" style="height: 380px;"></div>
+  </div>
+</div>
+<script>
+(async function(){
+  const res = await fetch(`/api/activities/{{ activity_id }}`);
+  const payload = await res.json();
+  const streams = (payload.data && payload.data.streams) || {};
+  const ts = streams.timestamp || [];
+
+  const traces = [];
+  function addTrace(name, arr, yaxis) {
+    if (!arr || arr.length === 0) return;
+    traces.push({x: ts, y: arr, name, type: 'scatter', mode: 'lines', yaxis});
+  }
+  addTrace('HR', streams.heart_rate, 'y');
+  addTrace('Power', streams.power, 'y2');
+  addTrace('Speed', streams.speed, 'y3');
+  addTrace('Cadence', streams.cadence, 'y4');
+
+  const layout = {
+    margin: {t: 20},
+    legend: {orientation: 'h'},
+    xaxis: {type: 'date', rangeslider: {visible: true}},
+    yaxis: {title: 'HR'},
+    yaxis2: {title: 'Power', overlaying: 'y', side: 'right'},
+    yaxis3: {title: 'Speed', overlaying: 'y', side: 'right', anchor: 'free', position: 0.95},
+    yaxis4: {title: 'Cadence', overlaying: 'y', side: 'right', anchor: 'free', position: 0.9}
+  };
+  Plotly.newPlot('chart', traces, layout, {responsive: true});
+
+  // Map
+  const map = L.map('map').setView([0,0], 2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19}).addTo(map);
+  const lat = streams.lat || [];
+  const lon = streams.lon || [];
+  const coords = [];
+  for (let i=0;i<lat.length;i++) {
+    if (lat[i] && lon[i]) { coords.push([lat[i]/11930465, lon[i]/11930465]); }
+  }
+  if (coords.length > 1) {
+    const poly = L.polyline(coords, {color:'red'}).addTo(map);
+    map.fitBounds(poly.getBounds());
+  }
+})();
+</script>
+{% endif %}
+{% endblock %}

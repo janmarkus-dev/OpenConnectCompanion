@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Activities</h3>
+<div class="mb-2">
+  <button class="btn btn-sm btn-outline-secondary" id="scanBtn">Scan devices now</button>
+  <span id="scanMsg" class="ms-2 text-muted"></span>
+  <script>
+    document.getElementById('scanBtn').addEventListener('click', async ()=>{
+      document.getElementById('scanMsg').textContent = 'Scanning...';
+      try {
+        const res = await fetch('/api/scan', {method:'POST'});
+        document.getElementById('scanMsg').textContent = res.ok ? 'Done' : 'Error';
+        if (res.ok) setTimeout(()=> location.reload(), 800);
+      } catch(e) {
+        document.getElementById('scanMsg').textContent = 'Error';
+      }
+    });
+  </script>
+</div>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Start</th>
+      <th>Type</th>
+      <th>Duration (min)</th>
+      <th>Distance (km)</th>
+      <th>Avg HR</th>
+      <th>Avg Power</th>
+      <th>TSS</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in activities %}
+    <tr>
+      <td><a href="/activity/{{ a.id }}">{{ a.start_time }}</a></td>
+      <td>{{ a.type }}</td>
+      <td>{{ (a.duration_s or 0) / 60 | round(1) }}</td>
+      <td>{{ (a.distance_m or 0) / 1000 | round(2) }}</td>
+      <td>{{ a.avg_hr }}</td>
+      <td>{{ a.avg_power }}</td>
+      <td>{{ a.tss | round(1) if a.tss else '' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
