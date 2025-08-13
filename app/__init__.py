@@ -16,13 +16,17 @@ def create_app(test_config: dict | None = None) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
 
     # Config
+    in_container = os.path.exists("/.dockerenv") or os.environ.get("RUNNING_IN_DOCKER") == "1"
+    default_data_dir = "/data" if in_container else os.path.abspath(os.path.join(os.getcwd(), "data"))
+    default_upload_dir = os.path.join(default_data_dir, "uploads")
+
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY", "dev"),
         SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", "sqlite:///occ.db"),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        DATA_DIR=os.environ.get("DATA_DIR", "/data"),
-        UPLOAD_FOLDER=os.environ.get("UPLOAD_FOLDER", "/data/uploads"),
-    OFFLINE=os.environ.get("OFFLINE", "0"),
+        DATA_DIR=os.environ.get("DATA_DIR", default_data_dir),
+        UPLOAD_FOLDER=os.environ.get("UPLOAD_FOLDER", default_upload_dir),
+        OFFLINE=os.environ.get("OFFLINE", "0"),
         SCHEDULER_API_ENABLED=False,
     )
     if test_config:

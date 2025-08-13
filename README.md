@@ -30,11 +30,15 @@ python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 $env:FLASK_APP = "app:create_app"
 $env:DATABASE_URL = "sqlite:///occ.db"
+$env:DATA_DIR = (Resolve-Path ".\data").Path
+$env:UPLOAD_FOLDER = (Join-Path $env:DATA_DIR "uploads")
 python -c "from app import create_app; from app import db; app = create_app();\nwith app.app_context(): db.create_all()"
 python app.py
 ```
 
 Open http://127.0.0.1:5000.
+
+Troubleshooting: If you see "permission denied /data" when running locally (not in Docker), set DATA_DIR to a writable path as above. The app now defaults to .\data when not running inside a container.
 
 ## Features in this MVP
 
