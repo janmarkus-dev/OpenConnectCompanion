@@ -2,10 +2,25 @@
 
 **OpenConnectCompanion** is a fast, open-source, self-hostable tool for synchronizing, analyzing, and visualizing data from Garmin smartwatches and cycling computers — all written in Python.
 
-It aims to provide a feature set comparable to **Garmin Connect®**, while staying lightweight, fully open-source, and free from unnecessary bloat. Even if Garmin’s services were ever discontinued, OpenConnectCompanion is designed to remain fully functional for its users, as it does not depend on any Garmin services. 
+It aims to provide a feature set comparable to **Garmin Connect™**, while staying lightweight, fully open-source, and free from unnecessary bloat. Even if Garmin’s services were ever discontinued, OpenConnectCompanion is designed to remain fully functional for its users, as it does not depend on any Garmin services. 
 
 ## Contributing
-Feel free to make a pull request about anything you would like added. Please keep in mind however, that currently only bugfixes and features which mimic features of **Garmin Connect®** 1:1. In case of not being able to code, feel free to open an issue! Translations are currently not possible due to the architecture.
+Feel free to make a pull request about anything you would like added. Please keep in mind however, that currently only bugfixes and features which mimic features of **Garmin Connect™** 1:1. In case of not being able to code, feel free to open an issue! Translations are currently not possible due to the architecture.
+
+## Security Policy
+
+### Reporting a Vulnerability
+If you discover a security vulnerability in this project, please **do not create a public GitHub issue**.  
+Instead, send a detailed report to **[security@example.com]**.
+**We will:**
+- Acknowledge your report within **48 hours**
+- Provide an estimated timeline for fixing the issue
+- Keep you informed about progress
+- Credit you in the release notes if you wish
+
+### Responsible Disclosure
+Please give us **at least 90 days** to address the issue before public disclosure.
+
 
 ## Thanks to these projects for their code:
 - Python
