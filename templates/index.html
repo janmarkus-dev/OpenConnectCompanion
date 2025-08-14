@@ -169,9 +169,6 @@
                     <!-- Compact Upload Status -->
                     <div id="upload-status" class="hidden mb-4 p-3 rounded-md text-sm"></div>
                     
-                    <!-- Hidden Upload Form -->
-                    <form id="upload-form" enctype="multipart/form-data" class="hidden"></form>
-                    
                     <!-- Compact File List -->
                     <div id="file-list" class="hidden mb-4">
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
@@ -697,7 +694,7 @@
         }
 
         // File upload functionality
-        const uploadForm = document.getElementById('upload-form');
+        // DOM elements
         const fileInput = document.getElementById('fit-file-upload');
         const uploadBtn = document.getElementById('upload-btn');
         const uploadStatus = document.getElementById('upload-status');
@@ -747,20 +744,19 @@
             }
         }
 
-        // Handle form submission
-        uploadForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
+        // Handle upload button click
+        async function handleUpload() {
             if (filesToUpload.length === 0) {
                 showStatus('Please select at least one FIT file.', 'error');
                 return;
             }
 
             uploadBtn.disabled = true;
-            uploadBtn.innerHTML = '<svg class="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"></path></svg>Uploading...';
+            uploadBtn.innerHTML = '<svg class="animate-spin w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"></path></svg>Uploading...';
 
             let successCount = 0;
             let errorCount = 0;
+            let errorMessages = [];
 
             for (const file of filesToUpload) {
                 try {
@@ -776,12 +772,17 @@
 
                     if (response.ok) {
                         successCount++;
+                        console.log(`Successfully uploaded: ${file.name}`);
                     } else {
                         errorCount++;
+                        const errorMsg = `${file.name}: ${result.error || 'Unknown error'}`;
+                        errorMessages.push(errorMsg);
                         console.error(`Error uploading ${file.name}:`, result.error);
                     }
                 } catch (error) {
                     errorCount++;
+                    const errorMsg = `${file.name}: ${error.message}`;
+                    errorMessages.push(errorMsg);
                     console.error(`Error uploading ${file.name}:`, error);
                 }
             }
@@ -791,7 +792,7 @@
             fileInput.value = '';
             fileList.classList.add('hidden');
             uploadBtn.disabled = false;
-            uploadBtn.innerHTML = '<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>Upload Files';
+            uploadBtn.innerHTML = '<svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>Upload';
 
             // Show status
             if (successCount > 0 && errorCount === 0) {
@@ -803,9 +804,12 @@
                 loadWorkouts();
                 loadStats();
             } else {
-                showStatus(`Failed to upload ${errorCount} file(s).`, 'error');
+                showStatus(`Failed to upload ${errorCount} file(s). ${errorMessages.join('; ')}`, 'error');
             }
-        });
+        }
+
+        // Attach upload handler to button
+        uploadBtn.addEventListener('click', handleUpload);
 
         function showStatus(message, type) {
             uploadStatus.className = `p-4 rounded-md ${type === 'success' ? 'bg-green-100 text-green-800 border border-green-200 dark:bg-green-900 dark:text-green-200 dark:border-green-700' : 
