@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
+from flask import Flask, render_template, jsonify, request, flash, redirect, url_for, Response
 import os
 import sqlite3
 import json
@@ -9,6 +9,7 @@ from werkzeug.datastructures import FileStorage
 import logging
 import pytz
 from tzlocal import get_localzone
+import folium
 
 # Create Flask application instance
 app = Flask(__name__)
@@ -931,6 +932,106 @@ def get_timezone_info():
     except Exception as e:
         logger.error(f"Error getting timezone info: {str(e)}")
         return jsonify({'error': 'Failed to get timezone information'}), 500
+
+# --- Folium Map Rendering ---
+def _extract_valid_gps_points(parsed_data):
+    """Extract and normalize valid GPS points from parsed_data."""
+    gps_data = parsed_data.get('gps_data', []) if parsed_data else []
+    processed = []
+    for p in gps_data:
+        lat = p.get('lat')
+        lon = p.get('lon')
+        if lat is None or lon is None:
+            continue
+        try:
+            lat = float(lat)
+            lon = float(lon)
+        except (TypeError, ValueError):
+            continue
+        # Convert Garmin semicircles to degrees if necessary
+        if abs(lat) > 180:
+            lat = lat * (180 / (2**31))
+        if abs(lon) > 180:
+            lon = lon * (180 / (2**31))
+        if -90 <= lat <= 90 and -180 <= lon <= 180 and not (lat == 0 and lon == 0):
+            processed.append({'lat': lat, 'lon': lon, 'altitude': p.get('altitude'), 'timestamp': p.get('timestamp')})
+    return processed
+
+def _build_folium_map(points, theme: str = 'light'):
+    """Build a Folium map from a list of points [{'lat':..,'lon':..}, ...] with theme."""
+    if not points:
+        # Return a simple minimal page explaining no GPS
+        is_dark = (theme == 'dark')
+        bg = '#111827' if is_dark else '#f8fafc'
+        fg = '#e5e7eb' if is_dark else '#374151'
+        css = (
+            "body{{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;" 
+            f"background:{bg};color:{fg}}}" 
+            " .box{display:flex;align-items:center;justify-content:center;height:100vh;}"
+        )
+        html = (
+            "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>"
+            f"<style>{css}</style></head><body><div class='box'><div>No GPS data available</div></div></body></html>"
+        )
+        return html
+
+    # Center map on median of bounds
+    lats = [p['lat'] for p in points]
+    lons = [p['lon'] for p in points]
+    center = (sum(lats) / len(lats), sum(lons) / len(lons))
+
+    # Choose tiles and colors based on theme
+    theme = 'dark' if theme == 'dark' else 'light'
+    tiles = 'CartoDB dark_matter' if theme == 'dark' else 'CartoDB positron'
+    line_color = '#60a5fa' if theme == 'dark' else '#3b82f6'
+
+    m = folium.Map(location=center, tiles=tiles, zoom_start=14, control_scale=True)
+
+    # Route polyline
+    coords = [(p['lat'], p['lon']) for p in points]
+    folium.PolyLine(coords, color=line_color, weight=4, opacity=0.9).add_to(m)
+
+    # Start/End markers
+    start = coords[0]
+    end = coords[-1]
+    folium.Marker(start, tooltip='Start', icon=folium.Icon(color='green', icon='play', prefix='fa')).add_to(m)
+    folium.Marker(end, tooltip='Finish', icon=folium.Icon(color='red', icon='flag-checkered', prefix='fa')).add_to(m)
+
+    # Fit bounds
+    m.fit_bounds([ (min(lats), min(lons)), (max(lats), max(lons)) ], padding=(20, 20))
+
+    # Render full HTML document so it can be loaded in an iframe cleanly
+    return m.get_root().render()
+
+@app.route('/api/workouts/<int:workout_id>/map/folium', methods=['GET'])
+def get_workout_folium_map(workout_id: int):
+    """Return a Folium-rendered HTML map for the workout to embed via iframe."""
+    try:
+        theme = request.args.get('theme', 'light').lower()
+        if theme not in ('light', 'dark'):
+            theme = 'light'
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('SELECT parsed_data_path FROM workouts WHERE id = ?', (workout_id,))
+        row = cur.fetchone()
+        if not row:
+            conn.close()
+            return Response('<h3>Workout not found</h3>', status=404, mimetype='text/html')
+        parsed_path = row[0]
+        conn.close()
+
+        if not parsed_path or not os.path.exists(parsed_path):
+            return Response('<h3>No GPS data available</h3>', status=404, mimetype='text/html')
+
+        with open(parsed_path, 'r') as f:
+            parsed_data = json.load(f)
+
+        points = _extract_valid_gps_points(parsed_data)
+        html = _build_folium_map(points, theme)
+        return Response(html, mimetype='text/html')
+    except Exception as e:
+        logger.exception('Error generating Folium map')
+        return Response('<h3>Error generating map</h3>', status=500, mimetype='text/html')
 
 if __name__ == '__main__':
     # Initialize database on startup

@@ -11,3 +11,6 @@ tzlocal==2025.2
 
 # Environment configuration
 python-dotenv==1.1.1
+
+# Mapping
+folium==0.20.0

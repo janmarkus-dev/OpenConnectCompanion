@@ -214,6 +214,24 @@
             
             <!-- Modal Content -->
             <div id="modal-content" class="pt-4 max-h-[80vh] overflow-y-auto">
+                <!-- Collapsible Route Map (Folium iframe) -->
+                <section id="route-map-section" class="mb-6 hidden">
+                    <div class="relative rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div id="route-map-container" class="relative h-48 md:h-64 bg-gray-100 dark:bg-gray-700">
+                            <!-- Map iframe -->
+                            <iframe id="route-map-iframe" title="Route Map" class="w-full h-full block" src="about:blank" loading="lazy"></iframe>
+                            
+                            <!-- Fade overlay for half-collapsed look -->
+                            <div id="route-map-fade" class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/90 via-white/60 to-transparent dark:from-gray-800/90 dark:via-gray-800/60 transition-opacity"></div>
+                            
+                            <!-- Expand/Collapse button -->
+                            <button id="toggle-map-size" class="absolute bottom-3 right-3 inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md bg-white/90 dark:bg-gray-900/70 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm backdrop-blur hover:bg-white dark:hover:bg-gray-800 transition">
+                                <svg id="toggle-icon" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+                                <span id="toggle-map-label">Expand map</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
                 <!-- Loading state -->
                 <div id="modal-loading" class="flex items-center justify-center py-8">
                     <svg class="animate-spin w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24">
@@ -686,6 +704,17 @@
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
             }
+
+            // If the workout modal is open with a map, reload the iframe with new theme
+            const modal = document.getElementById('workout-modal');
+            const routeSection = document.getElementById('route-map-section');
+            if (!modal.classList.contains('hidden') && routeSection && !routeSection.classList.contains('hidden')) {
+                const iframe = document.getElementById('route-map-iframe');
+                const src = new URL(iframe.src, window.location.origin);
+                const newTheme = html.classList.contains('dark') ? 'dark' : 'light';
+                src.searchParams.set('theme', newTheme);
+                iframe.src = src.toString();
+            }
         });
 
         // Apply saved theme on page load
@@ -1040,6 +1069,51 @@
             
             // Setup delete button for this workout
             setupDeleteButton(workout.id);
+
+            // Setup Folium map iframe (collapsible at top)
+            const routeSection = document.getElementById('route-map-section');
+            const routeContainer = document.getElementById('route-map-container');
+            const iframe = document.getElementById('route-map-iframe');
+            const fade = document.getElementById('route-map-fade');
+            const toggleBtn = document.getElementById('toggle-map-size');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const toggleLabel = document.getElementById('toggle-map-label');
+            
+            // Reset to collapsed state each time modal opens
+            routeSection.classList.remove('hidden');
+            iframe.style.height = '100%';
+            fade.style.opacity = '1';
+            toggleBtn.dataset.expanded = 'false';
+            toggleIcon.innerHTML = '<path d="M12 5v14m-7-7h14"/>';
+            toggleLabel.textContent = 'Expand map';
+            
+            // Load iframe from folium endpoint with theme
+            const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            iframe.src = `/api/workouts/${workout.id}/map/folium?theme=${theme}`;
+            
+            // Toggle expand/collapse
+            // Remove previous listeners by cloning
+            const newToggle = toggleBtn.cloneNode(true);
+            toggleBtn.parentNode.replaceChild(newToggle, toggleBtn);
+            
+            newToggle.addEventListener('click', () => {
+                const expanded = newToggle.dataset.expanded === 'true';
+                if (expanded) {
+                    // Collapse back
+                    newToggle.dataset.expanded = 'false';
+                    document.getElementById('toggle-icon').innerHTML = '<path d="M12 5v14m-7-7h14"/>';
+                    document.getElementById('toggle-map-label').textContent = 'Expand map';
+                    routeContainer.className = 'relative h-48 md:h-64 bg-gray-100 dark:bg-gray-700';
+                    fade.style.opacity = '1';
+                } else {
+                    // Expand to larger height
+                    newToggle.dataset.expanded = 'true';
+                    document.getElementById('toggle-icon').innerHTML = '<path d="M18 12H6"/>';
+                    document.getElementById('toggle-map-label').textContent = 'Collapse map';
+                    routeContainer.className = 'relative h-96 md:h-[32rem] bg-gray-100 dark:bg-gray-700';
+                    fade.style.opacity = '0';
+                }
+            });
         }
 
         // Raw data functionality
