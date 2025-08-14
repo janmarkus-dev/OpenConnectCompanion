@@ -5,7 +5,11 @@
 It aims to provide a feature set identical to **Garmin Connect™**, while staying lightweight, fully open-source, and free from unnecessary bloat. Even if Garmin’s services were ever discontinued, OpenConnectCompanion is designed to remain fully functional for its users, as it does not depend on any Garmin services. 
 
 ## Contributing
-Feel free to make a pull request about anything you would like added. Please keep in mind however, that currently only bugfixes and features which mimic features of **Garmin Connect™** 1:1. In case of not being able to code, feel free to open an issue! Translations are currently not possible due to the architecture.
+Feel free to submit a pull request for anything you’d like to see added.  
+Please note, however, that at the moment we only accept bug fixes and features that replicate Garmin Connect™ functionality exactly.  
+
+If you’re unable to contribute code, you’re welcome to open an issue instead!  
+Currently, translations are not possible due to the existing architecture.
 
 ## Security Policy
 
