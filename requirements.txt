@@ -7,7 +7,7 @@ fitparse==1.2.0
 
 # Timezone handling
 pytz==2025.2
-tzlocal==2025.2
+tzlocal==5.3.1
 
 # Environment configuration
 python-dotenv==1.1.1
