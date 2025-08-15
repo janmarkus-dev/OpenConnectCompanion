@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenConnect Companion</title>
-    <link href="./static/css/style.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
@@ -28,13 +28,14 @@
     <!-- Header -->
     <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-20">
                 <!-- Logo/Title -->
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-                            OpenConnect Companion
-                        </h1>
+                        <div class="leading-tight">
+                            <span class="block text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">OpenConnect</span>
+                            <span class="mt-0.5 inline-block text-xs sm:text-sm font-medium tracking-wide text-gray-900 dark:text-white">Companion</span>
+                        </div>
                     </div>
                 </div>
                 
@@ -104,60 +105,73 @@
                 </div>
             </div>
 
-            <!-- Status Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <!-- Database Status -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
-                                    </svg>
-                                </div>
+            <!-- Monthly Summary - Minimal One Row Layout -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg mb-6">
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between space-x-8">
+                        <!-- Week title -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 11h14M5 19h14M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
+                                </svg>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Database</p>
-                                <p id="db-status" class="text-lg font-semibold text-gray-900 dark:text-white">Ready</p>
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">This Month</p>
+                                <p id="month-range" class="text-sm font-semibold text-gray-900 dark:text-white">-</p>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Total Workouts -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                    </svg>
-                                </div>
+                        <!-- Workouts count -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M13 13v5M9 9v9M17 7v11"/>
+                                </svg>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Workouts</p>
-                                <p id="total-workouts" class="text-lg font-semibold text-gray-900 dark:text-white">0</p>
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Workouts</p>
+                                <p id="monthly-workouts" class="text-sm font-semibold text-gray-900 dark:text-white">0</p>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Processed Files -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </div>
+                        <!-- Distance -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="9" r="4" stroke-width="2"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z"/>
+                                </svg>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Processed</p>
-                                <p id="processed-workouts" class="text-lg font-semibold text-gray-900 dark:text-white">0</p>
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Distance</p>
+                                <p id="monthly-distance" class="text-sm font-semibold text-gray-900 dark:text-white">0 km</p>
+                            </div>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Duration</p>
+                                <p id="monthly-duration" class="text-sm font-semibold text-gray-900 dark:text-white">0m</p>
+                            </div>
+                        </div>
+
+                        <!-- Calories -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-rose-100 dark:bg-rose-900 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Calories</p>
+                                <p id="monthly-calories" class="text-sm font-semibold text-gray-900 dark:text-white">0 kcal</p>
                             </div>
                         </div>
                     </div>
@@ -518,7 +532,9 @@
     <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                OpenConnect Companion - Independent open-source project, not affiliated with Garmin Ltd.
+                <a href="https://github.com/janmarkus-dev/OpenConnectCompanion" target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline">
+                    OpenConnect Companion
+                </a> - Independent open-source project, not affiliated with Garmin Ltd.
             </p>
         </div>
     </footer>
@@ -911,18 +927,37 @@
         }
 
         // Load and display statistics
-        async function loadStats() {
+        async function loadMonthlySummary() {
             try {
-                const response = await fetch('/api/stats');
-                const data = await response.json();
-                
-                document.getElementById('total-workouts').textContent = data.total_workouts || 0;
-                document.getElementById('processed-workouts').textContent = data.processed_workouts || 0;
-                
-            } catch (error) {
-                console.error('Error loading stats:', error);
-                document.getElementById('db-status').textContent = 'Error';
-                document.getElementById('db-status').className = 'text-lg font-semibold text-red-600 dark:text-red-400';
+                const res = await fetch('/api/monthly-summary');
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                // Month range label: use local dates only
+                const start = new Date(data.month_start);
+                const end = new Date(data.month_end);
+                const fmt = (d, opts) => d.toLocaleDateString(undefined, opts);
+                const sameMonth = start.getMonth() === new Date(end.getTime() - 24*60*60*1000).getMonth();
+                const rangeText = sameMonth
+                    ? `${fmt(start, { month: 'long' })} ${start.getFullYear()}`
+                    : `${fmt(start, { month: 'short', year: 'numeric' })} - ${fmt(new Date(end.getTime() - 24*60*60*1000), { month: 'short', year: 'numeric' })}`;
+                document.getElementById('month-range').textContent = rangeText;
+
+                document.getElementById('monthly-workouts').textContent = data.workouts_count ?? 0;
+
+                const km = (data.total_distance_m || 0) / 1000;
+                document.getElementById('monthly-distance').textContent = `${km.toFixed(2)} km`;
+
+                document.getElementById('monthly-duration').textContent = formatDuration(data.total_duration_s || 0);
+
+                document.getElementById('monthly-calories').textContent = `${data.total_calories || 0} kcal`;
+            } catch (err) {
+                console.error('Error loading monthly summary:', err);
+                document.getElementById('month-range').textContent = 'This Month';
+                document.getElementById('monthly-workouts').textContent = '—';
+                document.getElementById('monthly-distance').textContent = '—';
+                document.getElementById('monthly-duration').textContent = '—';
+                document.getElementById('monthly-calories').textContent = '—';
             }
         }
 
@@ -1474,9 +1509,9 @@
         // Refresh workouts button
         document.getElementById('refresh-workouts').addEventListener('click', loadWorkouts);
 
-        // Load workouts on page load
-        loadWorkouts();
-        loadStats();
+    // Load workouts and monthly summary on page load
+    loadWorkouts();
+    loadMonthlySummary();
 
         // Drag and drop functionality
         const dropZone = document.querySelector('main');

@@ -4,6 +4,7 @@ import sqlite3
 import json
 import hashlib
 from datetime import datetime, timezone
+from datetime import timedelta
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import logging
@@ -1026,6 +1027,85 @@ def get_stats():
     except Exception as e:
         logger.error(f"Error fetching stats: {str(e)}")
         return jsonify({'error': 'Failed to fetch statistics'}), 500
+
+
+@app.route('/api/monthly-summary', methods=['GET'])
+def get_monthly_summary():
+    try:
+        user_tz = detect_user_timezone()
+        now_local = datetime.now(user_tz)
+        # Start of current month
+        start_of_month_local = now_local.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        # Start of next month
+        if start_of_month_local.month == 12:
+            start_of_next_month_local = start_of_month_local.replace(year=start_of_month_local.year + 1, month=1)
+        else:
+            start_of_next_month_local = start_of_month_local.replace(month=start_of_month_local.month + 1)
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('SELECT start_time, duration_seconds, distance_meters, total_calories, processed FROM workouts')
+        rows = cur.fetchall()
+        conn.close()
+
+        workouts_count = 0
+        processed_count = 0
+        total_distance_m = 0.0
+        total_duration_s = 0
+        total_calories = 0
+        daily_counts = {}
+
+        for row in rows:
+            start_time_str = row[0]
+            if not start_time_str:
+                continue
+            dt = parse_timestamp_with_timezone(start_time_str)
+            if not dt:
+                continue
+            dt_local = convert_utc_to_local(dt, user_tz)
+            if start_of_month_local <= dt_local < start_of_next_month_local:
+                workouts_count += 1
+                if row[4]:
+                    processed_count += 1
+                if row[2] is not None:
+                    try:
+                        total_distance_m += float(row[2])
+                    except (TypeError, ValueError):
+                        pass
+                if row[1] is not None:
+                    try:
+                        total_duration_s += int(row[1])
+                    except (TypeError, ValueError):
+                        pass
+                if row[3] is not None:
+                    try:
+                        total_calories += int(row[3])
+                    except (TypeError, ValueError):
+                        pass
+                dkey = dt_local.date().isoformat()
+                daily_counts[dkey] = daily_counts.get(dkey, 0) + 1
+
+        # Build ordered daily list for all days in the month
+        daily = []
+        day_cursor = start_of_month_local
+        while day_cursor < start_of_next_month_local:
+            dkey = day_cursor.date().isoformat()
+            daily.append({'date': dkey, 'count': daily_counts.get(dkey, 0)})
+            day_cursor = day_cursor + timedelta(days=1)
+
+        return jsonify({
+            'month_start': start_of_month_local.isoformat(),
+            'month_end': start_of_next_month_local.isoformat(),
+            'workouts_count': workouts_count,
+            'processed_count': processed_count,
+            'total_distance_m': total_distance_m,
+            'total_duration_s': total_duration_s,
+            'total_calories': total_calories,
+            'daily_counts': daily
+        })
+    except Exception as e:
+        logger.error(f"Error computing monthly summary: {str(e)}")
+        return jsonify({'error': 'Failed to compute monthly summary'}), 500
 
 @app.route('/api/timezone', methods=['GET'])
 def get_timezone_info():
