@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - Filo
-  commit:
-    branches:
-      - Filo
       
 jobs:
   build-and-push:
