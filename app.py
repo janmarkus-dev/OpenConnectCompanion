@@ -433,6 +433,264 @@ def store_workout_metadata(file_hash, filename, file_path, parsed_data):
 def index():
     return render_template('index.html')
 
+
+@app.route("/devices")
+def list_devices():
+    devices = []
+    
+    try:
+        import glob
+        import os
+        
+        gvfs_mount_dirs = glob.glob("/run/user/*/gvfs/mtp:host=*")
+        for mtp_dir in gvfs_mount_dirs:
+            try:
+                parts = mtp_dir.split("mtp:host=")
+                if len(parts) > 1:
+                    device_id = parts[1].split("/")[0] if "/" in parts[1] else parts[1]
+                    
+                    device_name = ""
+                    try:
+                        if os.path.exists(mtp_dir):
+                            contents = os.listdir(mtp_dir)
+                            device_name = device_id
+                    except Exception:
+                        device_name = device_id
+                    
+                    if "garmin" in device_name.lower() or "garmin" in device_id.lower():
+                        devices.append({
+                            "device": f"mtp://{device_id}",
+                            "mountpoint": mtp_dir,
+                            "fstype": "mtp",
+                            "type": "mtp",
+                            "removable": True,
+                            "name": device_name
+                        })
+                        logger.info(f"Found Garmin MTP device: {device_name} at {mtp_dir}")
+                    else:
+                        logger.debug(f"Skipping non-Garmin MTP device: {device_name}")
+                        
+            except Exception as e:
+                logger.debug(f"Error processing MTP device {mtp_dir}: {e}")
+                
+    except ImportError:
+        logger.debug("glob not available for MTP detection")
+    except Exception as e:
+        logger.warning(f"Error detecting MTP devices: {e}")
+    
+    return jsonify(devices)
+
+def find_fit_files_on_device(mount_path):
+    """Find .fit files specifically in the Activities folder on a mounted MTP device"""
+    fit_files = []
+    try:
+        import os
+        
+        # Recursively search for Activities folder
+        activities_path = None
+        for root, dirs, files in os.walk(mount_path):
+            if 'Activities' in dirs:
+                activities_path = os.path.join(root, 'Activities')
+                break
+        
+        if not activities_path or not os.path.exists(activities_path):
+            logger.debug(f"Activities folder not found in {mount_path}")
+            return fit_files
+            
+        logger.info(f"Found Activities folder: {activities_path}")
+        
+        # Scan only the Activities folder for .fit files
+        try:
+            for file in os.listdir(activities_path):
+                if file.lower().endswith('.fit'):
+                    full_path = os.path.join(activities_path, file)
+                    try:
+                        stat = os.stat(full_path)
+                        fit_files.append({
+                            'path': full_path,
+                            'filename': file,
+                            'size': stat.st_size,
+                            'modified': stat.st_mtime
+                        })
+                        logger.debug(f"Found .fit file: {file}")
+                    except OSError as e:
+                        logger.debug(f"Could not stat file {full_path}: {e}")
+                        continue
+        except OSError as e:
+            logger.warning(f"Could not list files in Activities folder {activities_path}: {e}")
+            
+    except Exception as e:
+        logger.error(f"Error scanning for .fit files in Activities folder of {mount_path}: {e}")
+    
+    logger.info(f"Found {len(fit_files)} .fit files in Activities folder")
+    return fit_files
+
+@app.route('/api/devices/scan-fit-files', methods=['POST'])
+def scan_and_upload_fit_files():
+    """Scan all detected Garmin devices for .fit files and upload them"""
+    try:
+        import glob
+        import os
+        import shutil
+        
+        results = {
+            'devices_scanned': 0,
+            'files_found': 0,
+            'files_uploaded': 0,
+            'files_skipped': 0,
+            'errors': []
+        }
+        
+        # Get all Garmin MTP devices
+        gvfs_mount_dirs = glob.glob("/run/user/*/gvfs/mtp:host=*")
+        garmin_devices = []
+        
+        for mtp_dir in gvfs_mount_dirs:
+            try:
+                parts = mtp_dir.split("mtp:host=")
+                if len(parts) > 1:
+                    device_id = parts[1].split("/")[0] if "/" in parts[1] else parts[1]
+                    
+                    # Check if it's a Garmin device
+                    if "garmin" in device_id.lower():
+                        if os.path.exists(mtp_dir):
+                            garmin_devices.append({
+                                'device_id': device_id,
+                                'mount_path': mtp_dir
+                            })
+                            
+            except Exception as e:
+                results['errors'].append(f"Error processing device {mtp_dir}: {str(e)}")
+        
+        results['devices_scanned'] = len(garmin_devices)
+        
+        if not garmin_devices:
+            return jsonify({
+                **results,
+                'message': 'No Garmin MTP devices found. Make sure your Garmin device is connected via USB and mounted as MTP.'
+            })
+        
+        # Scan each device for .fit files
+        for device in garmin_devices:
+            logger.info(f"Scanning Garmin device {device['device_id']} for .fit files...")
+            
+            try:
+                fit_files = find_fit_files_on_device(device['mount_path'])
+                results['files_found'] += len(fit_files)
+                
+                for fit_file in fit_files:
+                    try:
+                        # Read the file data
+                        with open(fit_file['path'], 'rb') as f:
+                            file_data = f.read()
+                        
+                        # Calculate hash to check if file already exists
+                        file_hash = calculate_file_hash(file_data)
+                        
+                        # Check if file already exists in database
+                        conn = get_db_connection()
+                        cursor = conn.cursor()
+                        cursor.execute('SELECT id FROM workouts WHERE file_hash = ?', (file_hash,))
+                        existing = cursor.fetchone()
+                        conn.close()
+                        
+                        if existing:
+                            results['files_skipped'] += 1
+                            logger.debug(f"File {fit_file['filename']} already exists, skipping")
+                            continue
+                        
+                        # Save file to upload folder
+                        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                        safe_filename = f"{timestamp}_{file_hash[:8]}_{secure_filename(fit_file['filename'])}"
+                        file_path = os.path.join(app.config['UPLOAD_FOLDER'], safe_filename)
+                        
+                        with open(file_path, 'wb') as f:
+                            f.write(file_data)
+                        
+                        # Parse and store the workout
+                        parsed_data = parse_fit_file(file_path)
+                        
+                        if parsed_data is None:
+                            os.remove(file_path)
+                            results['errors'].append(f"Failed to parse {fit_file['filename']}")
+                            continue
+                        
+                        workout_id = store_workout_metadata(file_hash, fit_file['filename'], file_path, parsed_data)
+                        
+                        if workout_id is None:
+                            os.remove(file_path)
+                            results['errors'].append(f"Failed to store {fit_file['filename']}")
+                            continue
+                        
+                        results['files_uploaded'] += 1
+                        logger.info(f"Successfully uploaded {fit_file['filename']} from Garmin device")
+                        
+                    except Exception as e:
+                        results['errors'].append(f"Error processing {fit_file['filename']}: {str(e)}")
+                        logger.error(f"Error processing fit file {fit_file['filename']}: {e}")
+                        
+            except Exception as e:
+                results['errors'].append(f"Error scanning device {device['device_id']}: {str(e)}")
+                logger.error(f"Error scanning device {device['device_id']}: {e}")
+        
+        message = f"Scan complete. Found {results['files_found']} files, uploaded {results['files_uploaded']}, skipped {results['files_skipped']}"
+        if results['errors']:
+            message += f", {len(results['errors'])} errors"
+        
+        return jsonify({
+            **results,
+            'message': message
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in scan_and_upload_fit_files: {str(e)}")
+        return jsonify({'error': 'Failed to scan devices', 'details': str(e)}), 500
+
+@app.route('/api/devices/fit-files', methods=['GET'])
+def list_fit_files_on_devices():
+    """List all .fit files found on connected Garmin devices without uploading"""
+    try:
+        import glob
+        import os
+        
+        results = {
+            'devices': [],
+            'total_files': 0
+        }
+        
+        # Get all Garmin MTP devices
+        gvfs_mount_dirs = glob.glob("/run/user/*/gvfs/mtp:host=*")
+        
+        for mtp_dir in gvfs_mount_dirs:
+            try:
+                parts = mtp_dir.split("mtp:host=")
+                if len(parts) > 1:
+                    device_id = parts[1].split("/")[0] if "/" in parts[1] else parts[1]
+                    
+                    # Check if it's a Garmin device
+                    if "garmin" in device_id.lower():
+                        if os.path.exists(mtp_dir):
+                            fit_files = find_fit_files_on_device(mtp_dir)
+                            
+                            device_info = {
+                                'device_id': device_id,
+                                'mount_path': mtp_dir,
+                                'fit_files': fit_files,
+                                'file_count': len(fit_files)
+                            }
+                            
+                            results['devices'].append(device_info)
+                            results['total_files'] += len(fit_files)
+                            
+            except Exception as e:
+                logger.error(f"Error listing files on device {mtp_dir}: {e}")
+        
+        return jsonify(results)
+        
+    except Exception as e:
+        logger.error(f"Error listing fit files: {str(e)}")
+        return jsonify({'error': 'Failed to list fit files', 'details': str(e)}), 500
+
 @app.route('/api/workouts', methods=['GET'])
 def get_workouts():
     try:
@@ -502,44 +760,6 @@ def get_workout_detail(workout_id):
     except Exception as e:
         logger.error(f"Error fetching workout detail: {str(e)}")
         return jsonify({'error': 'Failed to fetch workout detail'}), 500
-
-@app.route('/api/workouts/<int:workout_id>/raw', methods=['GET'])
-def get_workout_raw_data(workout_id):
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        cursor.execute('SELECT * FROM workouts WHERE id = ?', (workout_id,))
-        workout = cursor.fetchone()
-        
-        if not workout:
-            return jsonify({'error': 'Workout not found'}), 404
-        
-        if workout['parsed_data_path'] and os.path.exists(workout['parsed_data_path']):
-            with open(workout['parsed_data_path'], 'r') as f:
-                parsed_data = json.load(f)
-        else:
-            return jsonify({'error': 'Parsed data not available'}), 404
-        
-        conn.close()
-        
-        return jsonify({
-            'workout_id': workout_id,
-            'filename': workout['filename'],
-            'file_hash': workout['file_hash'],
-            'upload_timestamp': workout['upload_timestamp'],
-            'parsed_data': parsed_data,
-            'metadata': {
-                'total_sensor_records': len(parsed_data.get('sensor_data', [])),
-                'total_gps_points': len(parsed_data.get('gps_data', [])),
-                'file_size_bytes': parsed_data.get('file_info', {}).get('file_size', 0),
-                'parsed_at': parsed_data.get('file_info', {}).get('parsed_at', 'Unknown')
-            }
-        })
-        
-    except Exception as e:
-        logger.error(f"Error fetching raw workout data: {str(e)}")
-        return jsonify({'error': 'Failed to fetch raw workout data'}), 500
 
 @app.route('/api/workouts/<int:workout_id>/chart', methods=['GET'])
 def get_workout_chart_data(workout_id):
