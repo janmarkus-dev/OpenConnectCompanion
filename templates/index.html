@@ -332,7 +332,7 @@
                             </div>
                             
                             <!-- Cadence -->
-                            <div class="p-2 rounded-md border border-blue-200/60 dark:border-blue-800/60 bg-gradient-to-br from-white/85 to-blue-50/60 dark:from-gray-900/30 dark:to-blue-900/10">
+                            <div id="cadence-metrics-container" class="p-2 rounded-md border border-blue-200/60 dark:border-blue-800/60 bg-gradient-to-br from-white/85 to-blue-50/60 dark:from-gray-900/30 dark:to-blue-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
@@ -453,7 +453,7 @@
                                 </div>
                                 
                                 <!-- Cadence Chart -->
-                                <div class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
+                                <div id="cadence-chart-container" class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
                                     <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
@@ -1208,6 +1208,11 @@
                 })
                 .then(chartResponse => {
                     const chartData = chartResponse.chart_data;
+                    // Adapt UI for missing metrics (power/cadence)
+                    handleMissingMetrics({
+                        hasPower: !!chartResponse.has_power,
+                        hasCadence: !!chartResponse.has_cadence
+                    });
                     
                     if (chartData && (chartResponse.has_heart_rate || chartResponse.has_speed || chartResponse.has_power || chartResponse.has_cadence)) {
                         createCharts(chartData);
@@ -1226,6 +1231,61 @@
                         </div>
                     `;
                 });
+        }
+
+        // Hide charts and dim metric cards when .fit has no power or cadence
+        function handleMissingMetrics({ hasPower, hasCadence }) {
+            try {
+                const powerChartWrap = document.getElementById('power-chart-container');
+                const cadenceChartWrap = document.getElementById('cadence-chart-container');
+                const powerMetrics = document.getElementById('power-metrics-container');
+                const cadenceMetrics = document.getElementById('cadence-metrics-container');
+
+                // Utility to apply a subtle muted style and add a tiny note
+                const muteCard = (el, noteText) => {
+                    if (!el) return;
+                    el.classList.add('opacity-60');
+                    // Add note once
+                    if (!el.querySelector('[data-missing-note]')) {
+                        const note = document.createElement('div');
+                        note.setAttribute('data-missing-note', '');
+                        note.className = 'mt-2 text-[10px] text-gray-500 dark:text-gray-400 italic';
+                        note.textContent = noteText;
+                        el.appendChild(note);
+                    }
+                };
+
+                if (!hasPower) {
+                    if (powerChartWrap) powerChartWrap.classList.add('hidden');
+                    muteCard(powerMetrics, 'No power data in this file');
+                    // Also set metric values to N/A if not already
+                    const avg = document.getElementById('detail-power-avg');
+                    const max = document.getElementById('detail-power-max');
+                    if (avg && (!avg.textContent || avg.textContent === '-' )) avg.textContent = 'N/A';
+                    if (max && (!max.textContent || max.textContent === '-' )) max.textContent = 'N/A';
+                } else {
+                    if (powerChartWrap) powerChartWrap.classList.remove('hidden');
+                    if (powerMetrics) powerMetrics.classList.remove('opacity-60');
+                    const note = powerMetrics ? powerMetrics.querySelector('[data-missing-note]') : null;
+                    if (note) note.remove();
+                }
+
+                if (!hasCadence) {
+                    if (cadenceChartWrap) cadenceChartWrap.classList.add('hidden');
+                    muteCard(cadenceMetrics, 'No cadence data in this file');
+                    const avg = document.getElementById('detail-cadence-avg');
+                    const max = document.getElementById('detail-cadence-max');
+                    if (avg && (!avg.textContent || avg.textContent === '-' )) avg.textContent = 'N/A';
+                    if (max && (!max.textContent || max.textContent === '-' )) max.textContent = 'N/A';
+                } else {
+                    if (cadenceChartWrap) cadenceChartWrap.classList.remove('hidden');
+                    if (cadenceMetrics) cadenceMetrics.classList.remove('opacity-60');
+                    const note = cadenceMetrics ? cadenceMetrics.querySelector('[data-missing-note]') : null;
+                    if (note) note.remove();
+                }
+            } catch (e) {
+                console.warn('handleMissingMetrics failed:', e);
+            }
         }
 
         function createCharts(chartData) {
