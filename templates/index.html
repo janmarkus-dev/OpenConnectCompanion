@@ -965,6 +965,7 @@
             const duration = workout.duration_seconds ? formatDuration(workout.duration_seconds) : 'Unknown';
             const distance = workout.distance_meters ? (workout.distance_meters / 1000).toFixed(2) + ' km' : 'Unknown';
             const workoutIcon = getWorkoutTypeIcon(workout.workout_type);
+            const displayName = (workout.name && workout.name.trim().length > 0) ? workout.name.trim() : '';
             
             div.innerHTML = `
                 <div class="rounded-[15px] p-3 bg-white/80 dark:bg-gray-900/40 backdrop-blur-sm">
@@ -979,9 +980,10 @@
                         
                         <!-- Main Content -->
                         <div class="flex-1 min-w-0">
-                            <!-- Primary Info: Date and Duration -->
+                            <!-- Primary Info: Name/Date and Duration -->
                             <div class="flex items-center gap-2 mb-0.5">
-                                <h4 class="text-sm sm:text-base font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">${startTime}</h4>
+                                <h4 class="text-sm sm:text-base font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent truncate">${displayName || startTime}</h4>
+                                ${displayName ? `<span class="text-[11px] text-gray-400 dark:text-gray-500 truncate max-w-[30ch] hidden sm:inline">${startTime}</span>` : ''}
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold text-blue-700 dark:text-blue-300 bg-white/70 dark:bg-gray-900/40 border border-blue-200/60 dark:border-blue-800/60 backdrop-blur-sm">
                                     ${duration}
                                 </span>
@@ -1066,8 +1068,43 @@
         }
 
         function populateWorkoutModal(workout) {
-            // Update modal title
-            document.getElementById('modal-title').textContent = `${workout.filename}`;
+            // Update modal title with optional custom name and inline rename action
+            const titleEl = document.getElementById('modal-title');
+            const currentDisplayName = (workout.name && workout.name.trim().length > 0) ? workout.name.trim() : workout.filename;
+            titleEl.textContent = '';
+            const wrap = document.createElement('div');
+            wrap.className = 'flex items-center gap-2';
+            const span = document.createElement('span');
+            span.className = 'truncate';
+            span.textContent = currentDisplayName;
+            const btn = document.createElement('button');
+            btn.className = 'ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300';
+            btn.title = 'Rename workout';
+            btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M4 20h4l10.243-10.243a2.5 2.5 0 10-3.536-3.536L4 16v4z"/></svg>';
+            wrap.appendChild(span);
+            wrap.appendChild(btn);
+            titleEl.appendChild(wrap);
+            // Wire rename prompt
+            btn.addEventListener('click', async () => {
+                const proposed = prompt('Enter a name for this workout:', (workout.name && workout.name.trim()) || '');
+                if (proposed === null) return; // canceled
+                const name = proposed.trim();
+                if (!name) {
+                    showNotification('Name cannot be empty', 'warning');
+                    return;
+                }
+                try {
+                    const resp = await fetch(`/api/workouts/${workout.id}/rename`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) });
+                    const result = await resp.json();
+                    if (!resp.ok) throw new Error(result.error || 'Rename failed');
+                    span.textContent = name;
+                    await loadWorkouts();
+                    showNotification('Workout renamed', 'success');
+                } catch (e) {
+                    console.error('Rename failed:', e);
+                    showNotification(`Failed to rename: ${e.message}`, 'error');
+                }
+            });
             
             // Basic Information
             document.getElementById('detail-workout-type').textContent = formatActivityType(workout.workout_type);

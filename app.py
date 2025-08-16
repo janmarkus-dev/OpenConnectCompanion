@@ -94,6 +94,7 @@ def init_database():
             file_path TEXT NOT NULL,
             parsed_data_path TEXT,
             upload_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            name TEXT,
             workout_type TEXT,
             start_time DATETIME,
             end_time DATETIME,
@@ -121,8 +122,28 @@ def init_database():
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_workouts_workout_type ON workouts(workout_type)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_workouts_file_hash ON workouts(file_hash)')
     
+    # Ensure "name" column exists for older databases (SQLite has no IF NOT EXISTS for columns)
+    try:
+        cursor.execute("PRAGMA table_info(workouts)")
+        cols = [row[1] for row in cursor.fetchall()]
+        if 'name' not in cols:
+            cursor.execute('ALTER TABLE workouts ADD COLUMN name TEXT')
+    except Exception as e:
+        logger.warning(f"Could not ensure 'name' column exists: {e}")
+
     conn.commit()
     conn.close()
+
+def _ensure_workout_name_column(conn: sqlite3.Connection):
+    try:
+        cur = conn.cursor()
+        cur.execute('PRAGMA table_info(workouts)')
+        cols = [r[1] for r in cur.fetchall()]
+        if 'name' not in cols:
+            cur.execute('ALTER TABLE workouts ADD COLUMN name TEXT')
+            conn.commit()
+    except Exception as e:
+        logger.warning(f"Failed to ensure 'name' column: {e}")
 
 def get_db_connection():
     conn = sqlite3.connect(app.config['DATABASE_PATH'])
@@ -761,6 +782,41 @@ def get_workout_detail(workout_id):
     except Exception as e:
         logger.error(f"Error fetching workout detail: {str(e)}")
         return jsonify({'error': 'Failed to fetch workout detail'}), 500
+
+@app.route('/api/workouts/<int:workout_id>/rename', methods=['PATCH'])
+def rename_workout(workout_id: int):
+    try:
+        data = request.get_json(silent=True) or {}
+        new_name = data.get('name')
+        if new_name is None:
+            return jsonify({'error': 'Missing name'}), 400
+        # Normalize name: strip whitespace and limit length
+        new_name = str(new_name).strip()
+        if len(new_name) == 0:
+            return jsonify({'error': 'Name cannot be empty'}), 400
+        if len(new_name) > 200:
+            new_name = new_name[:200]
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Ensure workout exists
+        cur.execute('SELECT id FROM workouts WHERE id = ?', (workout_id,))
+        row = cur.fetchone()
+        if not row:
+            conn.close()
+            return jsonify({'error': 'Workout not found'}), 404
+
+        # Update name and updated_at
+        now_iso = datetime.now(timezone.utc).isoformat()
+        cur.execute('UPDATE workouts SET name = ?, updated_at = ? WHERE id = ?', (new_name, now_iso, workout_id))
+        conn.commit()
+        conn.close()
+
+        return jsonify({'message': 'Workout renamed', 'workout_id': workout_id, 'name': new_name})
+    except Exception as e:
+        logger.error(f"Error renaming workout {workout_id}: {e}")
+        return jsonify({'error': 'Failed to rename workout'}), 500
 
 @app.route('/api/workouts/<int:workout_id>/chart', methods=['GET'])
 def get_workout_chart_data(workout_id):
