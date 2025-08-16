@@ -176,11 +176,14 @@
             <div class="rounded-2xl">
                 <div class="p-[1px] rounded-2xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
                     <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center justify-between mb-3">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recent Workouts</h3>
-                        <button id="refresh-workouts" class="text-primary-600 hover:text-primary-700 text-sm font-medium">
-                            Refresh
-                        </button>
+                        <button id="refresh-workouts" class="text-primary-600 hover:text-primary-700 text-sm font-medium">Refresh</button>
+                    </div>
+                    <!-- Tag Filter Bar -->
+                    <div class="mb-4 flex flex-wrap items-center gap-2">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Filter by tags:</span>
+                        <div id="tag-filter-chips" class="flex flex-wrap gap-2"></div>
                     </div>
                     
                     <!-- Compact Upload Status -->
@@ -471,11 +474,26 @@
                             <svg class="animate-spin w-8 h-8 mx-auto text-primary-600" fill="none" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle>
                                 <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"></path>
-                            </svg>
+                        </svg>
                             <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400">Loading charts...</span>
                         </div>
                     </div>
                     
+                    <!-- Tags Editor -->
+                    <div class="mb-4">
+                        <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Tags</h4>
+                        <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
+                            <div id="tags-current" class="flex flex-wrap gap-2 mb-2"></div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <div id="preset-tags" class="flex flex-wrap gap-2"></div>
+                                <div class="flex items-center gap-2">
+                                    <input id="custom-tag-input" type="text" placeholder="Add custom tag" class="px-2 py-1 text-xs rounded-md bg-white/80 dark:bg-gray-900/50 border border-gray-200/60 dark:border-gray-700/60 text-gray-700 dark:text-gray-200 focus:outline-none">
+                                    <button id="add-custom-tag" class="px-2 py-1 text-xs rounded-md border border-primary-500/30 dark:border-primary-600/40 text-primary-700 dark:text-primary-300 bg-white/80 dark:bg-gray-900/50 hover:bg-primary-50/70 dark:hover:bg-gray-800/60">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- File Information -->
                     <div class="mb-4">
                         <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">File Information</h4>
@@ -632,7 +650,7 @@
             if (type.includes('swimming') || type.includes('swim')) {
                 return {
                     icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 576 512">
-                        <path d="M309.5 178.4L447.9 297.1c-1.6 .9-3.2 2-4.8 3.1c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-1.5-1-3.1-2.1-4.6-3L128.1 178.4c0 0 0 0 0 0s0 0 0 0c2.1 1.4 4.2 2.7 6.4 3.9c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0s40.1-12.4 58.2 0c2.2-1.2 4.3-2.5 6.4-3.9zm234.7 60.5c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0zM0 395.3c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4zM224 224a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm96-96a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
+                        <path d="M309.5 178.4L447.9 297.1c-1.6 .9-3.2 2-4.8 3.1c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-1.5-1-3.1-2.1-4.6-3L128.1 178.4c0 0 0 0 0 0s0 0 0 0c2.1 1.4 4.2 2.7 6.4 3.9c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0s40.1-12.4 58.2 0c2.2-1.2 4.3-2.5 6.4-3.9zm234.7 60.5c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0zM0 395.3c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4zM224 224a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm96-96a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
                     </svg>`,
                     color: 'text-cyan-600 dark:text-cyan-300',
                     bgColor: 'bg-cyan-500/10 border border-cyan-200/60 dark:border-cyan-800/60'
@@ -900,7 +918,11 @@
         // Load and display workouts
         async function loadWorkouts() {
             try {
-                const response = await fetch('/api/workouts?limit=10');
+                const qs = new URLSearchParams({ limit: '10' });
+                if (typeof activeTagFilter === 'string' && activeTagFilter.trim()) {
+                    qs.set('tag', activeTagFilter.trim());
+                }
+                const response = await fetch('/api/workouts?' + qs.toString());
                 const data = await response.json();
                 
                 const workoutsList = document.getElementById('workouts-list');
@@ -910,7 +932,15 @@
                     data.workouts.forEach(workout => {
                         const workoutElement = createWorkoutElement(workout);
                         workoutsList.appendChild(workoutElement);
+                        // Collect tags to power dynamic filter chips
+                        try {
+                            const tags = workout.tags ? (Array.isArray(workout.tags) ? workout.tags : JSON.parse(workout.tags)) : [];
+                            if (Array.isArray(tags)) {
+                                tags.forEach(t => { if (typeof t === 'string' && t.trim()) knownTagSet.add(t.trim()); });
+                            }
+                        } catch {}
                     });
+                    renderTagFilterBar();
                 } else {
                     workoutsList.innerHTML = '<div class="text-center py-8 text-gray-500 dark:text-gray-400">No workouts found. Upload some FIT files to get started!</div>';
                 }
@@ -955,6 +985,24 @@
             }
         }
 
+        const PRESET_TAGS = ['Commute','Zone 2','Intervals','Ride'];
+        let knownTagSet = new Set(PRESET_TAGS);
+        
+        function createTagChip(label, options = {}) {
+            const { removable = false, onRemove } = options;
+            const chip = document.createElement('span');
+            chip.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-white/70 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 text-gray-700 dark:text-gray-200';
+            chip.textContent = label;
+            if (removable) {
+                const btn = document.createElement('button');
+                btn.className = 'ml-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300';
+                btn.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+                btn.addEventListener('click', (e) => { e.stopPropagation(); onRemove && onRemove(); });
+                chip.appendChild(btn);
+            }
+            return chip;
+        }
+
         function createWorkoutElement(workout) {
             const div = document.createElement('div');
             // Outer gradient hairline border with hover accent
@@ -989,11 +1037,21 @@
                                 </span>
                             </div>
                             
-                            <!-- Secondary Info: Distance and Activity Type -->
+                            <!-- Secondary Info: Distance, Activity Type, Tags -->
                             <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                                 <span class="font-medium">${distance}</span>
                                 <span class="mx-1.5 text-gray-300 dark:text-gray-600 select-none">•</span>
                                 <span class="truncate">${formatActivityType(workout.workout_type)}</span>
+                                ${(() => {
+                                    let tagsHtml = '';
+                                    try {
+                                        const tags = workout.tags ? JSON.parse(workout.tags) : [];
+                                        if (Array.isArray(tags) && tags.length) {
+                                            tagsHtml = '<span class="mx-1.5 text-gray-300 dark:text-gray-600 select-none">•</span>' + tags.slice(0,3).map(t => `<span class=\"inline-flex items-center px-2 py-0.5 rounded-full text-[10px] bg-white/70 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 text-gray-600 dark:text-gray-300\">${t}</span>`).join(' ');
+                                        }
+                                    } catch (e) {}
+                                    return tagsHtml;
+                                })()}
                             </div>
                             
                             <!-- Filename (less visible) -->
@@ -1171,6 +1229,9 @@
             
             // Setup delete button for this workout
             setupDeleteButton(workout.id);
+
+            // Setup tags editor
+            setupTagsEditor(workout);
 
             // Setup Folium map iframe (collapsible at top)
             const routeSection = document.getElementById('route-map-section');
@@ -1494,8 +1555,8 @@
                             <svg class="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle>
                                 <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"></path>
-                            </svg>
-                            Deleting...
+                        </svg>
+                        Deleting...
                         `;
                         
                         const response = await fetch(`/api/workouts/${workoutId}`, {
@@ -1535,6 +1596,100 @@
             });
         }
 
+        // Tags editor functions
+        async function setupTagsEditor(workout) {
+            const container = document.getElementById('tags-current');
+            const presetWrap = document.getElementById('preset-tags');
+            const input = document.getElementById('custom-tag-input');
+            const addBtn = document.getElementById('add-custom-tag');
+
+            // Parse existing tags
+            let tags = [];
+            try { tags = Array.isArray(workout.tags) ? workout.tags : (workout.tags ? JSON.parse(workout.tags) : []); } catch { tags = []; }
+
+            const render = () => {
+                container.innerHTML = '';
+                tags.forEach((t, idx) => {
+                    container.appendChild(createTagChip(t, { removable: true, onRemove: () => { tags.splice(idx,1); save(); } }));
+                });
+
+                presetWrap.innerHTML = '';
+                PRESET_TAGS.forEach(pt => {
+                    const already = tags.map(s=>s.toLowerCase()).includes(pt.toLowerCase());
+                    const btn = document.createElement('button');
+                    btn.className = `px-2 py-1 text-xs rounded-full border ${already ? 'bg-primary-50/70 dark:bg-gray-800/60 text-primary-700 dark:text-primary-300 border-primary-500/30 dark:border-primary-600/40' : 'bg-white/80 dark:bg-gray-900/50 text-gray-700 dark:text-gray-200 border-gray-200/60 dark:border-gray-700/60'}`;
+                    btn.textContent = pt;
+                    btn.addEventListener('click', async () => {
+                        if (already) return;
+                        tags.push(pt);
+                        await save();
+                    });
+                    presetWrap.appendChild(btn);
+                });
+            };
+
+            const save = async () => {
+                try {
+                    const resp = await fetch(`/api/workouts/${workout.id}/tags`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tags }) });
+                    const data = await resp.json();
+                    if (!resp.ok) throw new Error(data.error || 'Failed to save tags');
+                    // Update local tags from server cleaned list
+                    tags = data.tags || [];
+                    render();
+                    // Immediately add any new tags to the global known set and refresh filter bar
+                    try {
+                        (tags || []).forEach(t => { if (typeof t === 'string' && t.trim()) knownTagSet.add(t.trim()); });
+                        renderTagFilterBar();
+                    } catch {}
+                    await loadWorkouts();
+                    showNotification('Tags updated', 'success');
+                } catch (e) {
+                    console.error('Save tags failed', e);
+                    showNotification(`Failed to update tags: ${e.message}`, 'error');
+                }
+            };
+
+            addBtn.onclick = async () => {
+                const val = (input.value || '').trim();
+                if (!val) return;
+                if (!tags.map(s=>s.toLowerCase()).includes(val.toLowerCase())) {
+                    tags.push(val);
+                    await save();
+                }
+                input.value = '';
+            };
+
+            input.addEventListener('keydown', async (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addBtn.click();
+                }
+            });
+
+            render();
+        }
+
+        // Tag filter bar
+        let activeTagFilter = '';
+        function renderTagFilterBar() {
+            const bar = document.getElementById('tag-filter-chips');
+            if (!bar) return;
+            bar.innerHTML = '';
+            const allChip = document.createElement('button');
+            allChip.className = `px-2 py-1 text-xs rounded-full border ${!activeTagFilter ? 'bg-primary-50/70 dark:bg-gray-800/60 text-primary-700 dark:text-primary-300 border-primary-500/30 dark:border-primary-600/40' : 'bg-white/80 dark:bg-gray-900/50 text-gray-700 dark:text-gray-200 border-gray-200/60 dark:border-gray-700/60'}`;
+            allChip.textContent = 'All';
+            allChip.onclick = () => { activeTagFilter=''; loadWorkouts(); renderTagFilterBar(); };
+            bar.appendChild(allChip);
+            Array.from(knownTagSet).sort((a,b)=>a.localeCompare(b)).forEach(pt => {
+                const btn = document.createElement('button');
+                const active = activeTagFilter.toLowerCase() === pt.toLowerCase();
+                btn.className = `px-2 py-1 text-xs rounded-full border ${active ? 'bg-primary-50/70 dark:bg-gray-800/60 text-primary-700 dark:text-primary-300 border-primary-500/30 dark:border-primary-600/40' : 'bg-white/80 dark:bg-gray-900/50 text-gray-700 dark:text-gray-200 border-gray-200/60 dark:border-gray-700/60'}`;
+                btn.textContent = pt;
+                btn.onclick = () => { activeTagFilter = pt; loadWorkouts(); renderTagFilterBar(); };
+                bar.appendChild(btn);
+            });
+        }
+
         // Notification system
     function showNotification(message, type = 'info') {
             // Create notification element
@@ -1563,7 +1718,7 @@
                             </svg>
                         ` : `
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m-1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         `}
                     </div>
@@ -1610,6 +1765,7 @@
         document.getElementById('refresh-workouts').addEventListener('click', loadWorkouts);
 
     // Load workouts and monthly summary on page load
+    renderTagFilterBar();
     loadWorkouts();
     loadMonthlySummary();
 

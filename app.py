@@ -95,6 +95,7 @@ def init_database():
             parsed_data_path TEXT,
             upload_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             name TEXT,
+            tags TEXT,
             workout_type TEXT,
             start_time DATETIME,
             end_time DATETIME,
@@ -122,14 +123,16 @@ def init_database():
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_workouts_workout_type ON workouts(workout_type)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_workouts_file_hash ON workouts(file_hash)')
     
-    # Ensure "name" column exists for older databases (SQLite has no IF NOT EXISTS for columns)
+    # Ensure "name" and "tags" columns exist for older databases (SQLite has no IF NOT EXISTS for columns)
     try:
         cursor.execute("PRAGMA table_info(workouts)")
         cols = [row[1] for row in cursor.fetchall()]
         if 'name' not in cols:
             cursor.execute('ALTER TABLE workouts ADD COLUMN name TEXT')
+        if 'tags' not in cols:
+            cursor.execute('ALTER TABLE workouts ADD COLUMN tags TEXT')
     except Exception as e:
-        logger.warning(f"Could not ensure 'name' column exists: {e}")
+        logger.warning(f"Could not ensure name/tags columns exist: {e}")
 
     conn.commit()
     conn.close()
@@ -144,6 +147,17 @@ def _ensure_workout_name_column(conn: sqlite3.Connection):
             conn.commit()
     except Exception as e:
         logger.warning(f"Failed to ensure 'name' column: {e}")
+
+def _ensure_workout_tags_column(conn: sqlite3.Connection):
+    try:
+        cur = conn.cursor()
+        cur.execute('PRAGMA table_info(workouts)')
+        cols = [r[1] for r in cur.fetchall()]
+        if 'tags' not in cols:
+            cur.execute('ALTER TABLE workouts ADD COLUMN tags TEXT')
+            conn.commit()
+    except Exception as e:
+        logger.warning(f"Failed to ensure 'tags' column: {e}")
 
 def get_db_connection():
     conn = sqlite3.connect(app.config['DATABASE_PATH'])
@@ -722,14 +736,22 @@ def get_workouts():
         limit = request.args.get('limit', 50, type=int)
         offset = request.args.get('offset', 0, type=int)
         workout_type = request.args.get('type')
+        tag_filter = request.args.get('tag')  # filter by tag name (case-insensitive contains)
         
-        where_clause = ""
+        where_clauses = []
         params = []
         
         if workout_type:
-            where_clause = "WHERE workout_type = ?"
+            where_clauses.append("workout_type = ?")
             params.append(workout_type)
+        if tag_filter:
+            # Tags stored as JSON array in TEXT; use LIKE for simple contains match
+            # We'll surround with quotes to match whole tag tokens, but also handle loose contains
+            where_clauses.append("(LOWER(tags) LIKE LOWER(?) OR LOWER(tags) LIKE LOWER(?))")
+            params.extend([f'%"{tag_filter}%', f'%{tag_filter}%'])
         
+        where_clause = ("WHERE " + " AND ".join(where_clauses)) if where_clauses else ""
+
         query = f'''
             SELECT * FROM workouts 
             {where_clause}
@@ -742,7 +764,7 @@ def get_workouts():
         workouts = [dict(row) for row in cursor.fetchall()]
         
         count_query = f"SELECT COUNT(*) FROM workouts {where_clause}"
-        cursor.execute(count_query, params[:-2] if workout_type else [])
+        cursor.execute(count_query, params[:-2] if where_clauses else [])
         total_count = cursor.fetchone()[0]
         
         conn.close()
@@ -757,6 +779,58 @@ def get_workouts():
     except Exception as e:
         logger.error(f"Error fetching workouts: {str(e)}")
         return jsonify({'error': 'Failed to fetch workouts'}), 500
+
+@app.route('/api/workouts/<int:workout_id>/tags', methods=['GET', 'PUT'])
+def workout_tags(workout_id: int):
+    try:
+        conn = get_db_connection()
+        _ensure_workout_tags_column(conn)
+        cur = conn.cursor()
+        # Ensure workout exists
+        cur.execute('SELECT id, tags FROM workouts WHERE id = ?', (workout_id,))
+        row = cur.fetchone()
+        if not row:
+            conn.close()
+            return jsonify({'error': 'Workout not found'}), 404
+
+        if request.method == 'GET':
+            raw = row['tags'] if isinstance(row, sqlite3.Row) else row[1]
+            try:
+                tags = json.loads(raw) if raw else []
+            except Exception:
+                tags = []
+            conn.close()
+            return jsonify({'workout_id': workout_id, 'tags': tags})
+
+        # PUT - set tags array entirely
+        data = request.get_json(silent=True) or {}
+        tags = data.get('tags')
+        if not isinstance(tags, list):
+            conn.close()
+            return jsonify({'error': 'tags must be a list of strings'}), 400
+        # Normalize and dedupe
+        cleaned = []
+        seen = set()
+        for t in tags:
+            if not isinstance(t, str):
+                continue
+            s = t.strip()
+            if not s:
+                continue
+            key = s.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            cleaned.append(s)
+        tags_json = json.dumps(cleaned)
+        now_iso = datetime.now(timezone.utc).isoformat()
+        cur.execute('UPDATE workouts SET tags = ?, updated_at = ? WHERE id = ?', (tags_json, now_iso, workout_id))
+        conn.commit()
+        conn.close()
+        return jsonify({'message': 'Tags updated', 'workout_id': workout_id, 'tags': cleaned})
+    except Exception as e:
+        logger.error(f"Error handling tags for workout {workout_id}: {e}")
+        return jsonify({'error': 'Failed to handle tags'}), 500
 
 @app.route('/api/workouts/<int:workout_id>', methods=['GET'])
 def get_workout_detail(workout_id):
