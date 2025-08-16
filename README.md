@@ -11,8 +11,8 @@ It aims to provide a feature set identical to **Garmin Connect™**, while stayi
 - fitparse
 
 ## Roadmap:
-- 1.9. first demo with 1 graph
-- 1.10. first alpha docker container
-- 1.11. first beta containers release
+- ✅ ~~1.9. first demo with 1 graph~~
+- ✅ ~~1.9. first alpha docker container~~
+- 1.9. first beta containers release
 
 > OpenConnectCompanion is an independent open-source project and is not affiliated with or endorsed by Garmin Ltd. or its subsidiaries.
