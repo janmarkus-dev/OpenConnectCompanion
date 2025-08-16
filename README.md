@@ -8,17 +8,17 @@ It aims to provide a feature set identical to **Garmin Connect™**, while stayi
 - **Docker:** `sudo docker run -p 5000:5000 janmarkusdev/openconnectcompanion: lastest`
 - **From source:** Clone repo, satisfy `requirements.txt` and run `app.py`. 
 
-## Thanks to these projects for their code:
-- Docker
-- Python
-- Flask
-- Werkzeug
-- pytz
-- tzlocal
-- python-dotenv
-- folium
-- leaflet
-- TailwindCSS
+## Wouldn't be possible without:
+- [Docker]
+- [Alpine Linux](https://www.alpinelinux.org), [Python](https://python.org)
+- [Flask] 
+- [Werkzeug] 
+- [pytz] 
+- [tzlocal] 
+- [python-dotenv] 
+- [folium] 
+- [leaflet] 
+- [TailwindCSS] 
 
 - fitparse
 
