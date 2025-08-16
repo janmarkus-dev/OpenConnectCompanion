@@ -9,16 +9,9 @@ It aims to provide a feature set identical to **Garmin Connect™**, while stayi
 - **From source:** Clone repo, satisfy `requirements.txt` and run `app.py`. 
 
 ## Wouldn't be possible without:
-- [Docker]
-- [Alpine Linux](https://www.alpinelinux.org), [Python](https://python.org)
-- [Flask] 
-- [Werkzeug] 
-- [pytz] 
-- [tzlocal] 
-- [python-dotenv] 
-- [folium] 
-- [leaflet] 
-- [TailwindCSS] 
+- [Docker](https://www.docker.com), [Alpine Linux](https://www.alpinelinux.org), [Python](https://python.org), [Flask](https://flask.palletsprojects.com), [Werkzeug](https://werkzeug.palletsprojects.com)
+- [pytz] [tzlocal] [python-dotenv] 
+- [folium](https://python-visualization.github.io/folium), [leaflet](https://leafletjs.com), [TailwindCSS](https://tailwindcss.com)
 
 - fitparse
 
