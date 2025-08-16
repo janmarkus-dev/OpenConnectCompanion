@@ -25,11 +25,9 @@
     </script>
 </head>
 <body class="h-full bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 transition-colors duration-200">
-    <!-- Header -->
     <header class="bg-white/80 dark:bg-gray-900/60 backdrop-blur-sm shadow-sm border-b border-white/60 dark:border-gray-700/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo/Title -->
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
                         <div class="leading-tight">
@@ -39,9 +37,7 @@
                     </div>
                 </div>
                 
-                <!-- Upload and Theme Toggle Controls -->
                 <div class="flex items-center space-x-3">
-                    <!-- Compact Upload Button -->
                     <div class="relative">
                         <input id="fit-file-upload" name="fit_file" type="file" class="sr-only" accept=".fit" multiple>
                         <label for="fit-file-upload" class="inline-flex items-center px-3 py-2 border border-white/60 dark:border-gray-700/60 text-sm font-medium rounded-md text-gray-800 dark:text-gray-200 bg-white/70 dark:bg-gray-900/50 hover:bg-white/80 dark:hover:bg-gray-800/60 transition-colors duration-200 cursor-pointer backdrop-blur-sm">
@@ -52,7 +48,6 @@
                         </label>
                     </div>
                     
-                    <!-- Garmin Device Upload Button -->
                     <button id="garmin-upload-btn" class="inline-flex items-center px-3 py-2 border border-orange-300/70 dark:border-orange-600/70 text-sm font-medium rounded-md text-orange-700 dark:text-orange-300 bg-orange-50/70 dark:bg-orange-900/20 hover:bg-orange-100/80 dark:hover:bg-orange-900/40 transition-colors duration-200 backdrop-blur-sm">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -60,17 +55,14 @@
                         Sync Garmin
                     </button>
                     
-                    <!-- Dark/Light Mode Toggle -->
                 <button 
                     id="theme-toggle" 
                     class="p-2 rounded-lg border border-gray-200/60 dark:border-gray-700/60 bg-white/70 dark:bg-gray-900/50 hover:bg-white/80 dark:hover:bg-gray-800/60 transition-colors duration-200 backdrop-blur-sm"
                     aria-label="Toggle theme"
                 >
-                    <!-- Sun Icon (Light Mode) -->
                     <svg id="sun-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
-                    <!-- Moon Icon (Dark Mode) -->
                     <svg id="moon-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
                     </svg>
@@ -79,16 +71,13 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
-            <!-- Welcome Section -->
             <div class="rounded-2xl mb-6">
                 <div class="p-[1px] rounded-2xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
                     <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <!-- Subtle icon like in workout summary -->
                                 <div class="w-9 h-9 rounded-md bg-indigo-500/10 border border-indigo-200/60 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -108,12 +97,10 @@
                 </div>
             </div>
 
-            <!-- Monthly Summary - Minimal One Row Layout -->
             <div class="rounded-2xl mb-6"></div>
                 <div class="p-[1px] rounded-2xl bg-gradient-to-r from-blue-200/60 via-sky-200/60 to-emerald-200/60 dark:from-gray-700/70 dark:via-gray-800/70 dark:to-gray-700/70">
                     <div class="px-4 py-3 rounded-[15px] bg-white/80 dark:bg-gray-900/40 backdrop-blur-sm">
                         <div class="flex items-center justify-between gap-4">
-                            <!-- Month title -->
                             <div class="flex items-center gap-2 min-w-[160px]">
                                 <div class="w-7 h-7 rounded-md bg-indigo-500/10 border border-indigo-200/60 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 11h14M5 19h14M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
@@ -124,7 +111,6 @@
                                 </div>
                             </div>
 
-                            <!-- Workouts count -->
                             <div class="flex items-center gap-2">
                                 <div class="w-7 h-7 rounded-md bg-blue-500/10 border border-blue-200/60 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 flex items-center justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M13 13v5M9 9v9M17 7v11"/></svg>
@@ -135,7 +121,6 @@
                                 </div>
                             </div>
 
-                            <!-- Distance -->
                             <div class="flex items-center gap-2">
                                 <div class="w-7 h-7 rounded-md bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-300 flex items-center justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="9" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z"/></svg>
@@ -146,7 +131,6 @@
                                 </div>
                             </div>
 
-                            <!-- Duration -->
                             <div class="flex items-center gap-2">
                                 <div class="w-7 h-7 rounded-md bg-amber-500/10 border border-amber-200/60 dark:border-amber-800/60 text-amber-600 dark:text-amber-300 flex items-center justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -157,7 +141,6 @@
                                 </div>
                             </div>
 
-                            <!-- Calories -->
                             <div class="flex items-center gap-2">
                                 <div class="w-7 h-7 rounded-md bg-rose-500/10 border border-rose-200/60 dark:border-rose-800/60 text-rose-600 dark:text-rose-300 flex items-center justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -172,7 +155,6 @@
                 </div>
             </div>
 
-            <!-- Recent Workouts -->
             <div class="rounded-2xl">
                 <div class="p-[1px] rounded-2xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
                     <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
@@ -180,16 +162,13 @@
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recent Workouts</h3>
                         <button id="refresh-workouts" class="text-primary-600 hover:text-primary-700 text-sm font-medium">Refresh</button>
                     </div>
-                    <!-- Tag Filter Bar -->
                     <div class="mb-4 flex flex-wrap items-center gap-2">
                         <span class="text-xs text-gray-500 dark:text-gray-400">Filter by tags:</span>
                         <div id="tag-filter-chips" class="flex flex-wrap gap-2"></div>
                     </div>
                     
-                    <!-- Compact Upload Status -->
                     <div id="upload-status" class="hidden mb-4 p-3 rounded-md text-sm"></div>
                     
-                    <!-- Compact File List -->
                     <div id="file-list" class="hidden mb-4">
                         <div class="p-[1px] rounded-xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
                             <div class="rounded-[12px] p-3 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm border border-white/60 dark:border-gray-700/60">
@@ -212,7 +191,6 @@
                         </div>
                     </div>
                     
-                    <!-- Workouts List -->
                     <div id="workouts-list" class="space-y-2">
                         <div class="text-center py-8 text-gray-500 dark:text-gray-400">
                             Loading workouts...
@@ -223,10 +201,8 @@
         </div>
     </main>
 
-    <!-- Workout Details Modal -->
     <div id="workout-modal" class="hidden fixed inset-0 bg-gray-900/60 backdrop-blur-sm overflow-y-auto h-full w-full z-50">
         <div class="relative top-8 mx-auto p-4 md:p-5 border w-11/12 md:w-5/6 lg:w-4/5 xl:w-3/4 2xl:w-2/3 shadow-xl rounded-2xl bg-white/90 dark:bg-gray-900/70 border-white/60 dark:border-gray-700/60 max-w-6xl">
-            <!-- Modal Header -->
             <div class="flex items-center justify-between pb-3 border-b border-gray-200/60 dark:border-gray-700/60">
                 <h3 id="modal-title" class="text-base md:text-lg font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Workout Details</h3>
                 <button id="close-modal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
@@ -236,19 +212,14 @@
                 </button>
             </div>
             
-            <!-- Modal Content -->
             <div id="modal-content" class="pt-3 max-h-[80vh] overflow-y-auto">
-                <!-- Collapsible Route Map (Folium iframe) -->
                 <section id="route-map-section" class="mb-6 hidden">
                     <div class="relative rounded-xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden">
                         <div id="route-map-container" class="relative h-48 md:h-64 bg-gray-100 dark:bg-gray-700">
-                            <!-- Map iframe -->
                             <iframe id="route-map-iframe" title="Route Map" class="w-full h-full block" src="about:blank" loading="lazy"></iframe>
                             
-                            <!-- Fade overlay for half-collapsed look -->
                             <div id="route-map-fade" class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/90 via-white/60 to-transparent dark:from-gray-800/90 dark:via-gray-800/60 transition-opacity"></div>
                             
-                            <!-- Expand/Collapse button -->
                             <button id="toggle-map-size" class="absolute bottom-3 right-3 inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md bg-white/90 dark:bg-gray-900/70 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm backdrop-blur hover:bg-white dark:hover:bg-gray-800 transition">
                                 <svg id="toggle-icon" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
                                 <span id="toggle-map-label">Expand map</span>
@@ -256,7 +227,6 @@
                         </div>
                     </div>
                 </section>
-                <!-- Loading state -->
                 <div id="modal-loading" class="flex items-center justify-center py-8">
                     <svg class="animate-spin w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle>
@@ -265,9 +235,7 @@
                     <span class="ml-2 text-gray-600 dark:text-gray-400">Loading workout details...</span>
                 </div>
                 
-                <!-- Content will be populated dynamically -->
                 <div id="modal-workout-data" class="hidden">
-                    <!-- Basic Info Section -->
                     <div class="mb-4">
                         <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Basic Information</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -290,11 +258,9 @@
                         </div>
                     </div>
                     
-                    <!-- Performance Metrics -->
                     <div class="mb-4">
                         <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Performance Metrics</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                            <!-- Heart Rate -->
                             <div class="p-2 rounded-md border border-red-200/60 dark:border-red-800/60 bg-gradient-to-br from-white/85 to-red-50/60 dark:from-gray-900/30 dark:to-red-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-red-600 dark:text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -314,7 +280,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Power -->
                             <div id="power-metrics-container" class="p-2 rounded-md border border-yellow-200/60 dark:border-yellow-800/60 bg-gradient-to-br from-white/85 to-yellow-50/60 dark:from-gray-900/30 dark:to-yellow-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-yellow-600 dark:text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -334,7 +299,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Cadence -->
                             <div id="cadence-metrics-container" class="p-2 rounded-md border border-blue-200/60 dark:border-blue-800/60 bg-gradient-to-br from-white/85 to-blue-50/60 dark:from-gray-900/30 dark:to-blue-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -354,7 +318,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Speed -->
                             <div class="p-2 rounded-md border border-green-200/60 dark:border-green-800/60 bg-gradient-to-br from-white/85 to-green-50/60 dark:from-gray-900/30 dark:to-green-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-green-600 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -374,7 +337,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Calories -->
                             <div class="p-2 rounded-md border border-purple-200/60 dark:border-purple-800/60 bg-gradient-to-br from-white/85 to-purple-50/60 dark:from-gray-900/30 dark:to-purple-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-purple-600 dark:text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -387,7 +349,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Elevation -->
                             <div class="p-2 rounded-md border border-gray-200/60 dark:border-gray-600/60 bg-gradient-to-br from-white/85 to-gray-50/60 dark:from-gray-900/30 dark:to-gray-800/20">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-gray-600 dark:text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -409,14 +370,11 @@
                         </div>
                     </div>
                     
-                    <!-- Performance Charts -->
                     <div class="mb-4">
                         <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Performance Charts</h4>
                         
-                        <!-- Charts Container -->
                         <div id="charts-container">
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <!-- Heart Rate Chart -->
                                 <div class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
                                     <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -429,7 +387,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Speed Chart -->
                                 <div class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
                                     <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -442,7 +399,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Power Chart -->
                                 <div id="power-chart-container" class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
                                     <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -455,7 +411,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Cadence Chart -->
                                 <div id="cadence-chart-container" class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
                                     <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -478,8 +433,7 @@
                             <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400">Loading charts...</span>
                         </div>
                     </div>
-                    
-                    <!-- Tags Editor -->
+
                     <div class="mb-4">
                         <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Tags</h4>
                         <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
@@ -494,7 +448,6 @@
                         </div>
                     </div>
 
-                    <!-- File Information -->
                     <div class="mb-4">
                         <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">File Information</h4>
                         <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
@@ -521,7 +474,6 @@
                     
 
                     
-                    <!-- Modal Footer -->
             <div class="px-4 py-3 bg-white/70 dark:bg-gray-800/40 border-t border-gray-200/60 dark:border-gray-700/60 flex justify-between items-center rounded-b-2xl">
                         <button 
                             id="delete-workout-btn" 
@@ -545,7 +497,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-white/80 dark:bg-gray-900/60 backdrop-blur-sm border-t border-white/60 dark:border-gray-700/60">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm text-gray-500 dark:text-gray-400">
@@ -557,11 +508,9 @@
     </footer>
 
     <script>
-        // Timezone utilities
         let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         let serverTimezoneInfo = null;
 
-        // Fetch server timezone information
         async function initializeTimezone() {
             try {
                 const response = await fetch('/api/timezone');
@@ -575,7 +524,6 @@
             }
         }
 
-        // Convert timestamp to local timezone for display
         function formatTimeForDisplay(timestamp) {
             if (!timestamp) return 'Unknown';
             try {
@@ -594,7 +542,6 @@
             }
         }
 
-        // Convert timestamp to local date for display
         function formatDateForDisplay(timestamp) {
             if (!timestamp) return 'Unknown';
             try {
@@ -610,18 +557,15 @@
             }
         }
 
-        // Format activity type with proper capitalization
         function formatActivityType(activityType) {
             if (!activityType || activityType === 'Unknown') return 'Unknown';
             
-            // Split by underscores or spaces and capitalize each word
             return activityType
                 .split(/[_\s]+/)
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                 .join(' ');
         }
 
-    // Get workout type icon and color (Font Awesome icons embedded locally)
         function getWorkoutTypeIcon(activityType) {
             if (!activityType) activityType = 'unknown';
             const type = activityType.toLowerCase();
@@ -677,7 +621,6 @@
                 };
             }
             
-            // Default for unknown types
             return {
                 icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
@@ -687,16 +630,13 @@
             };
         }
 
-        // Initialize timezone on page load
         initializeTimezone();
 
-        // Theme toggle functionality
         const themeToggle = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
         const html = document.documentElement;
 
-        // Check for saved theme preference or default to light mode
         const currentTheme = localStorage.getItem('theme') || 'light';
         
         if (currentTheme === 'dark') {
@@ -712,7 +652,6 @@
                 localStorage.setItem('theme', 'dark');
             }
 
-            // If the workout modal is open with a map, reload the iframe with new theme
             const modal = document.getElementById('workout-modal');
             const routeSection = document.getElementById('route-map-section');
             if (!modal.classList.contains('hidden') && routeSection && !routeSection.classList.contains('hidden')) {
@@ -724,13 +663,10 @@
             }
         });
 
-        // Apply saved theme on page load
         if (localStorage.getItem('theme') === 'dark') {
             html.classList.add('dark');
         }
 
-        // File upload functionality
-        // DOM elements
         const fileInput = document.getElementById('fit-file-upload');
         const uploadBtn = document.getElementById('upload-btn');
         const uploadStatus = document.getElementById('upload-status');
@@ -739,7 +675,6 @@
         
         let filesToUpload = [];
 
-        // Handle file selection
         fileInput.addEventListener('change', handleFileSelection);
         
         function handleFileSelection(event) {
@@ -780,7 +715,6 @@
             }
         }
 
-        // Handle upload button click
         async function handleUpload() {
             if (filesToUpload.length === 0) {
                 showStatus('Please select at least one FIT file.', 'error');
@@ -823,7 +757,6 @@
                 }
             }
 
-            // Reset form
             filesToUpload = [];
             fileInput.value = '';
             fileList.classList.add('hidden');
@@ -844,14 +777,11 @@
             }
         }
 
-        // Attach upload handler to button
         uploadBtn.addEventListener('click', handleUpload);
 
-        // Garmin Device Sync functionality
         async function handleGarminSync() {
             const garminBtn = document.getElementById('garmin-upload-btn');
-            
-            // Disable button and show loading state
+
             garminBtn.disabled = true;
             const originalHTML = garminBtn.innerHTML;
             garminBtn.innerHTML = `
@@ -876,7 +806,6 @@
 
                 const result = await response.json();
                 
-                // Show appropriate status message
                 if (result.devices_scanned === 0) {
                     showStatus('No Garmin devices detected. Make sure your device is connected and mounted.', 'warning');
                 } else if (result.files_uploaded > 0) {
@@ -890,7 +819,6 @@
                     showStatus(`Found ${result.files_found} file(s) but couldn't upload any. Check the console for details.`, 'error');
                 }
 
-                // Log detailed error information
                 if (result.errors && result.errors.length > 0) {
                     console.error('Garmin sync errors:', result.errors);
                 }
@@ -899,23 +827,18 @@
                 console.error('Error during Garmin sync:', error);
                 showStatus(`Failed to sync with Garmin device: ${error.message}`, 'error');
             } finally {
-                // Reset button
                 garminBtn.disabled = false;
                 garminBtn.innerHTML = originalHTML;
             }
         }
 
-        // Attach Garmin sync handler to button
         document.getElementById('garmin-upload-btn').addEventListener('click', handleGarminSync);
 
         function showStatus(message, type) {
-            // Delegate to the global toast-style notification system
-            // Map known types; default to 'info'
             const toastType = (type === 'success' || type === 'error' || type === 'warning') ? type : 'info';
             showNotification(message, toastType);
         }
 
-        // Load and display workouts
         async function loadWorkouts() {
             try {
                 const qs = new URLSearchParams({ limit: '10' });
@@ -932,7 +855,6 @@
                     data.workouts.forEach(workout => {
                         const workoutElement = createWorkoutElement(workout);
                         workoutsList.appendChild(workoutElement);
-                        // Collect tags to power dynamic filter chips
                         try {
                             const tags = workout.tags ? (Array.isArray(workout.tags) ? workout.tags : JSON.parse(workout.tags)) : [];
                             if (Array.isArray(tags)) {
@@ -950,14 +872,12 @@
             }
         }
 
-        // Load and display statistics
         async function loadMonthlySummary() {
             try {
                 const res = await fetch('/api/monthly-summary');
                 const data = await res.json();
                 if (data.error) throw new Error(data.error);
 
-                // Month range label: use local dates only
                 const start = new Date(data.month_start);
                 const end = new Date(data.month_end);
                 const fmt = (d, opts) => d.toLocaleDateString(undefined, opts);
@@ -1005,7 +925,6 @@
 
         function createWorkoutElement(workout) {
             const div = document.createElement('div');
-            // Outer gradient hairline border with hover accent
             div.className = 'group rounded-2xl p-[1px] bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60 hover:from-blue-200/50 hover:via-cyan-200/40 hover:to-emerald-200/50 dark:hover:from-gray-700/80 dark:hover:via-gray-800/80 dark:hover:to-gray-700/80 transition-colors duration-200 cursor-pointer';
             div.onclick = () => showWorkoutDetails(workout.id);
             
@@ -1090,13 +1009,11 @@
             }
         }
 
-        // Show workout details modal
         async function showWorkoutDetails(workoutId) {
             const modal = document.getElementById('workout-modal');
             const modalLoading = document.getElementById('modal-loading');
             const modalData = document.getElementById('modal-workout-data');
             
-            // Show modal and loading state
             modal.classList.remove('hidden');
             modalLoading.classList.remove('hidden');
             modalData.classList.add('hidden');
@@ -1110,7 +1027,6 @@
                 const workout = await response.json();
                 populateWorkoutModal(workout);
                 
-                // Hide loading, show data
                 modalLoading.classList.add('hidden');
                 modalData.classList.remove('hidden');
                 
@@ -1126,7 +1042,6 @@
         }
 
         function populateWorkoutModal(workout) {
-            // Update modal title with optional custom name and inline rename action
             const titleEl = document.getElementById('modal-title');
             const currentDisplayName = (workout.name && workout.name.trim().length > 0) ? workout.name.trim() : workout.filename;
             titleEl.textContent = '';
@@ -1164,7 +1079,6 @@
                 }
             });
             
-            // Basic Information
             document.getElementById('detail-workout-type').textContent = formatActivityType(workout.workout_type);
             document.getElementById('detail-start-time').textContent = workout.start_time 
                 ? formatTimeForDisplay(workout.start_time)
@@ -1176,7 +1090,6 @@
                 ? `${(workout.distance_meters / 1000).toFixed(2)} km` 
                 : 'Unknown';
             
-            // Performance Metrics
             document.getElementById('detail-hr-avg').textContent = workout.avg_heart_rate 
                 ? `${workout.avg_heart_rate} bpm` 
                 : 'N/A';
@@ -1214,7 +1127,6 @@
                 ? `${Math.round(workout.elevation_loss_meters)} m` 
                 : 'N/A';
             
-            // File Information
             document.getElementById('detail-filename').textContent = workout.filename || 'Unknown';
             document.getElementById('detail-upload-date').textContent = workout.upload_timestamp 
                 ? formatDateForDisplay(workout.upload_timestamp)
@@ -1224,16 +1136,12 @@
                 ? workout.file_hash.substring(0, 16) + '...' 
                 : 'Unknown';
             
-            // Setup charts for this workout
             setupCharts(workout.id);
             
-            // Setup delete button for this workout
             setupDeleteButton(workout.id);
 
-            // Setup tags editor
             setupTagsEditor(workout);
 
-            // Setup Folium map iframe (collapsible at top)
             const routeSection = document.getElementById('route-map-section');
             const routeContainer = document.getElementById('route-map-container');
             const iframe = document.getElementById('route-map-iframe');
@@ -1242,7 +1150,6 @@
             const toggleIcon = document.getElementById('toggle-icon');
             const toggleLabel = document.getElementById('toggle-map-label');
             
-            // Reset to collapsed state each time modal opens
             routeSection.classList.remove('hidden');
             iframe.style.height = '100%';
             fade.style.opacity = '1';
@@ -1250,26 +1157,21 @@
             toggleIcon.innerHTML = '<path d="M12 5v14m-7-7h14"/>';
             toggleLabel.textContent = 'Expand map';
             
-            // Load iframe from folium endpoint with theme
             const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
             iframe.src = `/api/workouts/${workout.id}/map/folium?theme=${theme}`;
             
-            // Toggle expand/collapse
-            // Remove previous listeners by cloning
             const newToggle = toggleBtn.cloneNode(true);
             toggleBtn.parentNode.replaceChild(newToggle, toggleBtn);
             
             newToggle.addEventListener('click', () => {
                 const expanded = newToggle.dataset.expanded === 'true';
                 if (expanded) {
-                    // Collapse back
                     newToggle.dataset.expanded = 'false';
                     document.getElementById('toggle-icon').innerHTML = '<path d="M12 5v14m-7-7h14"/>';
                     document.getElementById('toggle-map-label').textContent = 'Expand map';
                     routeContainer.className = 'relative h-48 md:h-64 bg-gray-100 dark:bg-gray-700';
                     fade.style.opacity = '1';
                 } else {
-                    // Expand to larger height
                     newToggle.dataset.expanded = 'true';
                     document.getElementById('toggle-icon').innerHTML = '<path d="M18 12H6"/>';
                     document.getElementById('toggle-map-label').textContent = 'Collapse map';
@@ -1279,24 +1181,20 @@
             });
         }
 
-        // Chart functionality
         let chartInstances = {};
         
         function setupCharts(workoutId) {
             const chartsContainer = document.getElementById('charts-container');
             const chartsLoading = document.getElementById('charts-loading');
-            
-            // Show loading state
+
             chartsLoading.classList.remove('hidden');
             chartsContainer.classList.add('hidden');
-            
-            // Destroy existing charts
+
             Object.values(chartInstances).forEach(chart => {
                 if (chart) chart.destroy();
             });
             chartInstances = {};
 
-            // Load and display charts automatically
             fetch(`/api/workouts/${workoutId}/chart`)
                 .then(response => {
                     if (!response.ok) {
@@ -1306,7 +1204,6 @@
                 })
                 .then(chartResponse => {
                     const chartData = chartResponse.chart_data;
-                    // Adapt UI for missing metrics (power/cadence)
                     handleMissingMetrics({
                         hasPower: !!chartResponse.has_power,
                         hasCadence: !!chartResponse.has_cadence
@@ -1331,7 +1228,6 @@
                 });
         }
 
-        // Hide charts and dim metric cards when .fit has no power or cadence
         function handleMissingMetrics({ hasPower, hasCadence }) {
             try {
                 const powerChartWrap = document.getElementById('power-chart-container');
@@ -1339,11 +1235,9 @@
                 const powerMetrics = document.getElementById('power-metrics-container');
                 const cadenceMetrics = document.getElementById('cadence-metrics-container');
 
-                // Utility to apply a subtle muted style and add a tiny note
                 const muteCard = (el, noteText) => {
                     if (!el) return;
                     el.classList.add('opacity-60');
-                    // Add note once
                     if (!el.querySelector('[data-missing-note]')) {
                         const note = document.createElement('div');
                         note.setAttribute('data-missing-note', '');
@@ -1356,7 +1250,6 @@
                 if (!hasPower) {
                     if (powerChartWrap) powerChartWrap.classList.add('hidden');
                     muteCard(powerMetrics, 'No power data in this file');
-                    // Also set metric values to N/A if not already
                     const avg = document.getElementById('detail-power-avg');
                     const max = document.getElementById('detail-power-max');
                     if (avg && (!avg.textContent || avg.textContent === '-' )) avg.textContent = 'N/A';
@@ -1399,7 +1292,6 @@
                 return '';
             });
             
-            // Chart configuration template
             const baseConfig = {
                 type: 'line',
                 options: {
@@ -1439,7 +1331,6 @@
                 }
             };
 
-            // Heart Rate Chart
             if (chartData.heart_rate.some(hr => hr !== null)) {
                 const ctx1 = document.getElementById('heart-rate-chart').getContext('2d');
                 chartInstances.heartRate = new Chart(ctx1, {
@@ -1459,7 +1350,6 @@
                 });
             }
 
-            // Speed Chart (convert m/s to km/h)
             if (chartData.speed.some(speed => speed !== null)) {
                 const speedKmh = chartData.speed.map(speed => speed ? speed * 3.6 : null);
                 const ctx2 = document.getElementById('speed-chart').getContext('2d');
@@ -1480,7 +1370,6 @@
                 });
             }
 
-            // Power Chart
             if (chartData.power.some(power => power !== null)) {
                 const ctx3 = document.getElementById('power-chart').getContext('2d');
                 chartInstances.power = new Chart(ctx3, {
@@ -1500,7 +1389,6 @@
                 });
             }
 
-            // Cadence Chart
             if (chartData.cadence.some(cadence => cadence !== null)) {
                 const ctx4 = document.getElementById('cadence-chart').getContext('2d');
                 chartInstances.cadence = new Chart(ctx4, {
@@ -1521,7 +1409,6 @@
             }
         }
 
-        // Modal close functionality
         document.getElementById('close-modal').addEventListener('click', closeWorkoutModal);
         document.getElementById('close-modal-footer').addEventListener('click', closeWorkoutModal);
         document.getElementById('workout-modal').addEventListener('click', (e) => {
@@ -1534,14 +1421,12 @@
             document.getElementById('workout-modal').classList.add('hidden');
         }
 
-        // Delete workout functionality
         let currentWorkoutId = null;
         
         function setupDeleteButton(workoutId) {
             currentWorkoutId = workoutId;
             const deleteBtn = document.getElementById('delete-workout-btn');
             
-            // Remove existing event listeners
             const newDeleteBtn = deleteBtn.cloneNode(true);
             deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn);
             
@@ -1570,13 +1455,10 @@
                         
                         const result = await response.json();
                         
-                        // Close modal
                         closeWorkoutModal();
                         
-                        // Show success message
                         showNotification('Workout deleted successfully', 'success');
                         
-                        // Refresh the workouts list
                         await loadWorkouts();
                         
                     } catch (error) {
@@ -1596,14 +1478,12 @@
             });
         }
 
-        // Tags editor functions
         async function setupTagsEditor(workout) {
             const container = document.getElementById('tags-current');
             const presetWrap = document.getElementById('preset-tags');
             const input = document.getElementById('custom-tag-input');
             const addBtn = document.getElementById('add-custom-tag');
 
-            // Parse existing tags
             let tags = [];
             try { tags = Array.isArray(workout.tags) ? workout.tags : (workout.tags ? JSON.parse(workout.tags) : []); } catch { tags = []; }
 
@@ -1633,10 +1513,8 @@
                     const resp = await fetch(`/api/workouts/${workout.id}/tags`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tags }) });
                     const data = await resp.json();
                     if (!resp.ok) throw new Error(data.error || 'Failed to save tags');
-                    // Update local tags from server cleaned list
                     tags = data.tags || [];
                     render();
-                    // Immediately add any new tags to the global known set and refresh filter bar
                     try {
                         (tags || []).forEach(t => { if (typeof t === 'string' && t.trim()) knownTagSet.add(t.trim()); });
                         renderTagFilterBar();
@@ -1669,7 +1547,6 @@
             render();
         }
 
-        // Tag filter bar
         let activeTagFilter = '';
         function renderTagFilterBar() {
             const bar = document.getElementById('tag-filter-chips');
@@ -1690,9 +1567,7 @@
             });
         }
 
-        // Notification system
     function showNotification(message, type = 'info') {
-            // Create notification element
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 z-50 max-w-sm w-full px-4 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
                 type === 'success' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700' :
@@ -1735,15 +1610,12 @@
                 </div>
             `;
             
-            // Add to document
             document.body.appendChild(notification);
             
-            // Animate in
             setTimeout(() => {
                 notification.classList.remove('translate-x-full');
             }, 100);
             
-            // Auto-remove after 5 seconds
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
                 setTimeout(() => {
@@ -1754,22 +1626,18 @@
             }, 5000);
         }
 
-        // Close modal with Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeWorkoutModal();
             }
         });
 
-        // Refresh workouts button
         document.getElementById('refresh-workouts').addEventListener('click', loadWorkouts);
 
-    // Load workouts and monthly summary on page load
     renderTagFilterBar();
     loadWorkouts();
     loadMonthlySummary();
 
-        // Drag and drop functionality
         const dropZone = document.querySelector('main');
         
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {

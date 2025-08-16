@@ -3,8 +3,7 @@ import os
 import sqlite3
 import json
 import hashlib
-from datetime import datetime, timezone
-from datetime import timedelta
+from datetime import datetime, timezone, timedelta
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 import logging
@@ -123,7 +122,6 @@ def init_database():
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_workouts_workout_type ON workouts(workout_type)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_workouts_file_hash ON workouts(file_hash)')
     
-    # Ensure "name" and "tags" columns exist for older databases (SQLite has no IF NOT EXISTS for columns)
     try:
         cursor.execute("PRAGMA table_info(workouts)")
         cols = [row[1] for row in cursor.fetchall()]
