@@ -9,7 +9,7 @@ It aims to provide a feature set identical to **Garmin Connect™**, while stayi
 - **From source:** Clone repo, satisfy `requirements.txt` and run `app.py`. 
 
 ## Wouldn't be possible without:
-- [Docker](https://www.docker.com), [Alpine Linux](https://www.alpinelinux.org), [Python](https://python.org), [Flask](https://flask.palletsprojects.com), [Werkzeug](https://werkzeug.palletsprojects.com) [pytz](https://github.com/stub42/pytz), [tzlocal](https://pypi.org/project/tzlocal), [python-dotenv](https://github.com/theskumar/python-dotenv) [folium](https://python-visualization.github.io/folium), [leaflet](https://leafletjs.com), [TailwindCSS](https://tailwindcss.com), [fitparse](https://github.com/dtcooper/python-fitparse)
+[Docker](https://www.docker.com), [Alpine Linux](https://www.alpinelinux.org), [Python](https://python.org), [Flask](https://flask.palletsprojects.com), [Werkzeug](https://werkzeug.palletsprojects.com) [pytz](https://github.com/stub42/pytz), [tzlocal](https://pypi.org/project/tzlocal), [python-dotenv](https://github.com/theskumar/python-dotenv), [folium](https://python-visualization.github.io/folium), [leaflet](https://leafletjs.com), [TailwindCSS](https://tailwindcss.com), [fitparse](https://github.com/dtcooper/python-fitparse)
 
 ## Roadmap:
 - ✅ ~~1.9. first demo with 1 graph~~
