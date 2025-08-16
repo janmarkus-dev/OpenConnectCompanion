@@ -4,6 +4,14 @@
 
 It aims to provide a feature set identical to **Garmin Connect™**, while staying lightweight, fully open-source, and free from unnecessary bloat. Even if Garmin’s services were ever discontinued, OpenConnectCompanion is designed to remain fully functional for its users, as it does not depend on any Garmin services. 
 
+## Install
+### Docker
+- **Docker:** `sudo docker run -p 5000:5000 janmarkusdev/openconnectcompanion: lastest`
+- **From source:** Clone repo, satisfy `requirements.txt` and run `app.py`. 
+
+### Run from source
+- soon
+
 ## Thanks to these projects for their code:
 - Python
 - Flask
