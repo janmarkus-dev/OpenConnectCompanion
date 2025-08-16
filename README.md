@@ -9,11 +9,17 @@ It aims to provide a feature set identical to **Garmin Connect™**, while stayi
 - **From source:** Clone repo, satisfy `requirements.txt` and run `app.py`. 
 
 ## Thanks to these projects for their code:
+- Docker
 - Python
 - Flask
-- TailwindCSS
+- Werkzeug
+- pytz
+- tzlocal
+- python-dotenv
 - folium
 - leaflet
+- TailwindCSS
+
 - fitparse
 
 ## Roadmap:
