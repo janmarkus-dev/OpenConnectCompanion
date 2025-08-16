@@ -24,17 +24,17 @@
         }
     </script>
 </head>
-<body class="h-full bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+<body class="h-full bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 transition-colors duration-200">
     <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+    <header class="bg-white/80 dark:bg-gray-900/60 backdrop-blur-sm shadow-sm border-b border-white/60 dark:border-gray-700/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo/Title -->
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
                         <div class="leading-tight">
-                            <span class="block text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">OpenConnect</span>
-                            <span class="mt-0.5 inline-block text-xs sm:text-sm font-medium tracking-wide text-gray-900 dark:text-white">Companion</span>
+                            <span class="block text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">OpenConnect</span>
+                            <span class="mt-0.5 inline-block text-xs sm:text-sm font-medium tracking-wide bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Companion</span>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <!-- Compact Upload Button -->
                     <div class="relative">
                         <input id="fit-file-upload" name="fit_file" type="file" class="sr-only" accept=".fit" multiple>
-                        <label for="fit-file-upload" class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500 transition-colors duration-200 cursor-pointer">
+                        <label for="fit-file-upload" class="inline-flex items-center px-3 py-2 border border-white/60 dark:border-gray-700/60 text-sm font-medium rounded-md text-gray-800 dark:text-gray-200 bg-white/70 dark:bg-gray-900/50 hover:bg-white/80 dark:hover:bg-gray-800/60 transition-colors duration-200 cursor-pointer backdrop-blur-sm">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                             </svg>
@@ -53,7 +53,7 @@
                     </div>
                     
                     <!-- Garmin Device Upload Button -->
-                    <button id="garmin-upload-btn" class="inline-flex items-center px-3 py-2 border border-orange-300 dark:border-orange-600 text-sm font-medium rounded-md text-orange-700 dark:text-orange-300 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200">
+                    <button id="garmin-upload-btn" class="inline-flex items-center px-3 py-2 border border-orange-300/70 dark:border-orange-600/70 text-sm font-medium rounded-md text-orange-700 dark:text-orange-300 bg-orange-50/70 dark:bg-orange-900/20 hover:bg-orange-100/80 dark:hover:bg-orange-900/40 transition-colors duration-200 backdrop-blur-sm">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
@@ -63,7 +63,7 @@
                     <!-- Dark/Light Mode Toggle -->
                 <button 
                     id="theme-toggle" 
-                    class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200"
+                    class="p-2 rounded-lg border border-gray-200/60 dark:border-gray-700/60 bg-white/70 dark:bg-gray-900/50 hover:bg-white/80 dark:hover:bg-gray-800/60 transition-colors duration-200 backdrop-blur-sm"
                     aria-label="Toggle theme"
                 >
                     <!-- Sun Icon (Light Mode) -->
@@ -83,95 +83,89 @@
     <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
             <!-- Welcome Section -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg mb-6">
-                <div class="p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
+            <div class="rounded-2xl mb-6">
+                <div class="p-[1px] rounded-2xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
+                    <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <!-- Subtle icon like in workout summary -->
+                                <div class="w-9 h-9 rounded-md bg-indigo-500/10 border border-indigo-200/60 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ml-4">
-                            <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-                                Garmin Data Synchronization
-                            </h2>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                Blazing fast, open source, local, self-hostable Garmin Connect alternative
-                            </p>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                                    Garmin Data Synchronization
+                                </h2>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    Blazing fast, open source, local, self-hostable Garmin Connect alternative
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Monthly Summary - Minimal One Row Layout -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg mb-6">
-                <div class="px-6 py-4">
-                    <div class="flex items-center justify-between space-x-8">
-                        <!-- Week title -->
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 11h14M5 19h14M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
-                                </svg>
+            <div class="rounded-2xl mb-6"></div>
+                <div class="p-[1px] rounded-2xl bg-gradient-to-r from-blue-200/60 via-sky-200/60 to-emerald-200/60 dark:from-gray-700/70 dark:via-gray-800/70 dark:to-gray-700/70">
+                    <div class="px-4 py-3 rounded-[15px] bg-white/80 dark:bg-gray-900/40 backdrop-blur-sm">
+                        <div class="flex items-center justify-between gap-4">
+                            <!-- Month title -->
+                            <div class="flex items-center gap-2 min-w-[160px]">
+                                <div class="w-7 h-7 rounded-md bg-indigo-500/10 border border-indigo-200/60 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 11h14M5 19h14M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">This Month</p>
+                                    <p id="month-range" class="text-sm font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">-</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">This Month</p>
-                                <p id="month-range" class="text-sm font-semibold text-gray-900 dark:text-white">-</p>
-                            </div>
-                        </div>
 
-                        <!-- Workouts count -->
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M13 13v5M9 9v9M17 7v11"/>
-                                </svg>
+                            <!-- Workouts count -->
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-blue-500/10 border border-blue-200/60 dark:border-blue-800/60 text-blue-600 dark:text-blue-300 flex items-center justify-center">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M13 13v5M9 9v9M17 7v11"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Workouts</p>
+                                    <p id="monthly-workouts" class="text-sm font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">0</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Workouts</p>
-                                <p id="monthly-workouts" class="text-sm font-semibold text-gray-900 dark:text-white">0</p>
-                            </div>
-                        </div>
 
-                        <!-- Distance -->
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="9" r="4" stroke-width="2"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z"/>
-                                </svg>
+                            <!-- Distance -->
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-300 flex items-center justify-center">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="9" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Distance</p>
+                                    <p id="monthly-distance" class="text-sm font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">0 km</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Distance</p>
-                                <p id="monthly-distance" class="text-sm font-semibold text-gray-900 dark:text-white">0 km</p>
-                            </div>
-                        </div>
 
-                        <!-- Duration -->
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
+                            <!-- Duration -->
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-amber-500/10 border border-amber-200/60 dark:border-amber-800/60 text-amber-600 dark:text-amber-300 flex items-center justify-center">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Duration</p>
+                                    <p id="monthly-duration" class="text-sm font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">0m</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Duration</p>
-                                <p id="monthly-duration" class="text-sm font-semibold text-gray-900 dark:text-white">0m</p>
-                            </div>
-                        </div>
 
-                        <!-- Calories -->
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 bg-rose-100 dark:bg-rose-900 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Calories</p>
-                                <p id="monthly-calories" class="text-sm font-semibold text-gray-900 dark:text-white">0 kcal</p>
+                            <!-- Calories -->
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-md bg-rose-500/10 border border-rose-200/60 dark:border-rose-800/60 text-rose-600 dark:text-rose-300 flex items-center justify-center">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Calories</p>
+                                    <p id="monthly-calories" class="text-sm font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">0 kcal</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -179,8 +173,9 @@
             </div>
 
             <!-- Recent Workouts -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6">
+            <div class="rounded-2xl">
+                <div class="p-[1px] rounded-2xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
+                    <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recent Workouts</h3>
                         <button id="refresh-workouts" class="text-primary-600 hover:text-primary-700 text-sm font-medium">
@@ -193,25 +188,29 @@
                     
                     <!-- Compact File List -->
                     <div id="file-list" class="hidden mb-4">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                            <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2 flex items-center">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                                Selected Files:
-                                <button id="upload-btn" class="ml-auto inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                    </svg>
-                                    Upload
-                                </button>
-                            </h4>
-                            <ul id="selected-files" class="space-y-1 text-sm"></ul>
+                        <div class="p-[1px] rounded-xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
+                            <div class="rounded-[12px] p-3 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm border border-white/60 dark:border-gray-700/60">
+                                <div class="flex items-center mb-2">
+                                    <div class="w-6 h-6 rounded-md bg-primary-500/10 border border-primary-500/30 dark:border-primary-600/40 text-primary-600 dark:text-primary-400 flex items-center justify-center mr-2">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <h4 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Selected Files</h4>
+                                    <button id="upload-btn" class="ml-auto inline-flex items-center px-3 py-1.5 border border-primary-500/30 dark:border-primary-600/40 text-xs font-semibold rounded-md text-primary-700 dark:text-primary-300 bg-white/80 dark:bg-gray-900/50 hover:bg-primary-50/80 dark:hover:bg-gray-800/60 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                        </svg>
+                                        Upload
+                                    </button>
+                                </div>
+                                <ul id="selected-files" class="space-y-1 text-sm"></ul>
+                            </div>
                         </div>
                     </div>
                     
                     <!-- Workouts List -->
-                    <div id="workouts-list" class="space-y-3">
+                    <div id="workouts-list" class="space-y-2">
                         <div class="text-center py-8 text-gray-500 dark:text-gray-400">
                             Loading workouts...
                         </div>
@@ -222,11 +221,11 @@
     </main>
 
     <!-- Workout Details Modal -->
-    <div id="workout-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-        <div class="relative top-8 mx-auto p-5 border w-11/12 md:w-5/6 lg:w-4/5 xl:w-3/4 2xl:w-2/3 shadow-lg rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 max-w-6xl">
+    <div id="workout-modal" class="hidden fixed inset-0 bg-gray-900/60 backdrop-blur-sm overflow-y-auto h-full w-full z-50">
+        <div class="relative top-8 mx-auto p-4 md:p-5 border w-11/12 md:w-5/6 lg:w-4/5 xl:w-3/4 2xl:w-2/3 shadow-xl rounded-2xl bg-white/90 dark:bg-gray-900/70 border-white/60 dark:border-gray-700/60 max-w-6xl">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-600">
-                <h3 id="modal-title" class="text-lg font-medium text-gray-900 dark:text-white">Workout Details</h3>
+            <div class="flex items-center justify-between pb-3 border-b border-gray-200/60 dark:border-gray-700/60">
+                <h3 id="modal-title" class="text-base md:text-lg font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Workout Details</h3>
                 <button id="close-modal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -235,10 +234,10 @@
             </div>
             
             <!-- Modal Content -->
-            <div id="modal-content" class="pt-4 max-h-[80vh] overflow-y-auto">
+            <div id="modal-content" class="pt-3 max-h-[80vh] overflow-y-auto">
                 <!-- Collapsible Route Map (Folium iframe) -->
                 <section id="route-map-section" class="mb-6 hidden">
-                    <div class="relative rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div class="relative rounded-xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden">
                         <div id="route-map-container" class="relative h-48 md:h-64 bg-gray-100 dark:bg-gray-700">
                             <!-- Map iframe -->
                             <iframe id="route-map-iframe" title="Route Map" class="w-full h-full block" src="about:blank" loading="lazy"></iframe>
@@ -266,22 +265,22 @@
                 <!-- Content will be populated dynamically -->
                 <div id="modal-workout-data" class="hidden">
                     <!-- Basic Info Section -->
-                    <div class="mb-6">
-                        <h4 class="text-md font-semibold text-gray-900 dark:text-white mb-3">Basic Information</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                    <div class="mb-4">
+                        <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Basic Information</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Activity Type</span>
                                 <span id="detail-workout-type" class="text-sm font-semibold text-gray-900 dark:text-white">-</span>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                            <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Start Time</span>
                                 <span id="detail-start-time" class="text-sm font-semibold text-gray-900 dark:text-white">-</span>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                            <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Duration</span>
                                 <span id="detail-duration" class="text-sm font-semibold text-gray-900 dark:text-white">-</span>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                            <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Distance</span>
                                 <span id="detail-distance" class="text-sm font-semibold text-gray-900 dark:text-white">-</span>
                             </div>
@@ -289,11 +288,11 @@
                     </div>
                     
                     <!-- Performance Metrics -->
-                    <div class="mb-6">
-                        <h4 class="text-md font-semibold text-gray-900 dark:text-white mb-3">Performance Metrics</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="mb-4">
+                        <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Performance Metrics</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             <!-- Heart Rate -->
-                            <div class="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-200 dark:border-red-800">
+                            <div class="p-2 rounded-md border border-red-200/60 dark:border-red-800/60 bg-gradient-to-br from-white/85 to-red-50/60 dark:from-gray-900/30 dark:to-red-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-red-600 dark:text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
@@ -313,7 +312,7 @@
                             </div>
                             
                             <!-- Power -->
-                            <div id="power-metrics-container" class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                            <div id="power-metrics-container" class="p-2 rounded-md border border-yellow-200/60 dark:border-yellow-800/60 bg-gradient-to-br from-white/85 to-yellow-50/60 dark:from-gray-900/30 dark:to-yellow-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-yellow-600 dark:text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -333,7 +332,7 @@
                             </div>
                             
                             <!-- Cadence -->
-                            <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <div class="p-2 rounded-md border border-blue-200/60 dark:border-blue-800/60 bg-gradient-to-br from-white/85 to-blue-50/60 dark:from-gray-900/30 dark:to-blue-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
@@ -353,7 +352,7 @@
                             </div>
                             
                             <!-- Speed -->
-                            <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-800">
+                            <div class="p-2 rounded-md border border-green-200/60 dark:border-green-800/60 bg-gradient-to-br from-white/85 to-green-50/60 dark:from-gray-900/30 dark:to-green-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-green-600 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -373,7 +372,7 @@
                             </div>
                             
                             <!-- Calories -->
-                            <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg border border-purple-200 dark:border-purple-800">
+                            <div class="p-2 rounded-md border border-purple-200/60 dark:border-purple-800/60 bg-gradient-to-br from-white/85 to-purple-50/60 dark:from-gray-900/30 dark:to-purple-900/10">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-purple-600 dark:text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
@@ -386,7 +385,7 @@
                             </div>
                             
                             <!-- Elevation -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div class="p-2 rounded-md border border-gray-200/60 dark:border-gray-600/60 bg-gradient-to-br from-white/85 to-gray-50/60 dark:from-gray-900/30 dark:to-gray-800/20">
                                 <div class="flex items-center mb-2">
                                     <svg class="w-4 h-4 text-gray-600 dark:text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
@@ -408,15 +407,15 @@
                     </div>
                     
                     <!-- Performance Charts -->
-                    <div class="mb-6">
-                        <h4 class="text-md font-semibold text-gray-900 dark:text-white mb-3">Performance Charts</h4>
+                    <div class="mb-4">
+                        <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">Performance Charts</h4>
                         
                         <!-- Charts Container -->
                         <div id="charts-container">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <!-- Heart Rate Chart -->
-                                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                                    <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
+                                <div class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
+                                    <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
                                         </svg>
@@ -428,8 +427,8 @@
                                 </div>
                                 
                                 <!-- Speed Chart -->
-                                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                                    <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
+                                <div class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
+                                    <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
@@ -441,8 +440,8 @@
                                 </div>
                                 
                                 <!-- Power Chart -->
-                                <div id="power-chart-container" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                                    <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
+                                <div id="power-chart-container" class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
+                                    <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                         </svg>
@@ -454,8 +453,8 @@
                                 </div>
                                 
                                 <!-- Cadence Chart -->
-                                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                                    <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
+                                <div class="bg-white/80 dark:bg-gray-900/40 border border-gray-200/60 dark:border-gray-700/60 rounded-lg p-3 shadow-sm">
+                                    <h5 class="text-sm font-medium bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2 flex items-center">
                                         <svg class="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                                         </svg>
@@ -478,9 +477,9 @@
                     </div>
                     
                     <!-- File Information -->
-                    <div class="mb-4">'
-                        <h4 class="text-md font-semibold text-gray-900 dark:text-white mb-3">File Information</h4>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                    <div class="mb-4">
+                        <h4 class="text-sm md:text-md font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">File Information</h4>
+                        <div class="bg-white/70 dark:bg-gray-800/40 p-2 rounded-md border border-gray-200/60 dark:border-gray-700/60">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500 dark:text-gray-400">Filename:</span>
@@ -505,10 +504,10 @@
 
                     
                     <!-- Modal Footer -->
-                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 flex justify-between items-center">
+            <div class="px-4 py-3 bg-white/70 dark:bg-gray-800/40 border-t border-gray-200/60 dark:border-gray-700/60 flex justify-between items-center rounded-b-2xl">
                         <button 
                             id="delete-workout-btn" 
-                            class="inline-flex items-center px-4 py-2 border border-red-300 dark:border-red-600 text-sm font-medium rounded-md text-red-700 dark:text-red-400 bg-white dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                class="inline-flex items-center px-3 py-1.5 border border-red-300/70 dark:border-red-600/70 text-sm font-medium rounded-md text-red-700 dark:text-red-400 bg-white/80 dark:bg-gray-900/50 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-200"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -518,7 +517,7 @@
                         
                         <button 
                             id="close-modal-footer" 
-                            class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-3 py-1.5 border border-gray-300/70 dark:border-gray-600/70 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-900/50 hover:bg-gray-50/80 dark:hover:bg-gray-800/60 transition-colors duration-200"
                         >
                             Close
                         </button>
@@ -529,7 +528,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
+    <footer class="bg-white/80 dark:bg-gray-900/60 backdrop-blur-sm border-t border-white/60 dark:border-gray-700/60">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm text-gray-500 dark:text-gray-400">
                 <a href="https://github.com/janmarkus-dev/OpenConnectCompanion" target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline">
@@ -604,7 +603,7 @@
                 .join(' ');
         }
 
-        // Get workout type icon and color (Font Awesome icons embedded locally)
+    // Get workout type icon and color (Font Awesome icons embedded locally)
         function getWorkoutTypeIcon(activityType) {
             if (!activityType) activityType = 'unknown';
             const type = activityType.toLowerCase();
@@ -615,8 +614,8 @@
                     icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 640 512">
                         <path d="M312 32c-13.3 0-24 10.7-24 24s10.7 24 24 24h25.7l34.6 64H222.9l-27.4-38C191 99.7 183.7 96 176 96H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h43.7l22.1 30.7-26.6 53.1c-10-2.5-20.5-3.8-31.2-3.8C57.3 224 0 281.3 0 352s57.3 128 128 128c65.3 0 119.1-48.9 127-112h49c7.9 63.1 61.7 112 127 112c70.7 0 128-57.3 128-128s-57.3-128-128-128c-13.5 0-26.5 2.1-38.7 6L375.4 48.8C369.8 38.4 359 32 347.2 32H312zM458.6 303.7l32.3 64.5c1.7 3.4 6.1 6.2 11.2 6.2c6.5 0 11.7-5.2 11.7-11.7c0-1.7-.4-3.3-1.1-4.6l-32.2-64.5C491.8 297.1 475.2 300 458.6 303.7zM128 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128zm256 64a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/>
                     </svg>`,
-                    color: 'text-blue-600 dark:text-blue-400',
-                    bgColor: 'bg-blue-100 dark:bg-blue-900/20'
+            color: 'text-blue-600 dark:text-blue-300',
+            bgColor: 'bg-blue-500/10 border border-blue-200/60 dark:border-blue-800/60'
                 };
             }
             
@@ -625,8 +624,8 @@
                     icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 448 512">
                         <path d="M320 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM125.7 175.5c9.9-9.9 23.4-15.5 37.5-15.5c1.9 0 3.8 .1 5.6 .3L137.6 254c-9.3 28.1-33.7 47.3-62.2 48.6c-15 .7-30.8-2.9-43.9-12.6C9.3 276.2-2.4 249-2.4 249s27.2-11.7 41-27.5c13.9-15.9 14.6-33.9 16.7-40.9c4.4-14.9 15.2-26.3 29.5-31.8c14.3-5.5 30.7-2.8 42.4 6.8zM173.3 148.7c2 1.9 4.7 2.8 7.5 2.8c2.6 0 5.1-.7 7.2-2.2l115.6-81.6c5.2-3.7 12.6-2.5 16.3 2.6s2.5 12.6-2.6 16.3L201.7 167.9c-9.1 6.4-20.9 5.3-28.6-2.3c-7.8-7.8-7.8-20.5 0-28.3zM126.6 231.5l-25.9 77.8c-1.6 4.7-5.4 8.4-10.2 9.9l-48.8 15.1c-7.2 2.2-14.9-1.8-17.1-9s1.8-14.9 9-17.1l41.7-12.9L101.7 213c7.5-22.5 30.3-36.7 54.4-34l47.4 5.3c13.3 1.5 26-4.8 33.2-16.3l23.7-37.2c4.4-6.9 13.8-9.1 20.7-4.7s9.1 13.8 4.7 20.7l-23.7 37.2c-13.9 21.8-38.2 34.9-63.9 34.5l-9.7-1.1c-5.1-.6-9.4 3.1-10 8.1s3.1 9.4 8.1 10l9.7 1.1c35.8 4 68.9-15.9 87.4-52.4l23.7-37.2c10.4-16.3 32.8-21.1 49.1-10.7s21.1 32.8 10.7 49.1l-23.7 37.2c-24.4 38.3-67.7 58.6-113.4 53.4c-13.2-1.5-26.3 5.4-32.6 17.1L89 409.5c-3.5 6.5-11.6 8.9-18.1 5.4s-8.9-11.6-5.4-18.1L87.9 342c11.2-20.9 35.5-31.5 58.6-25.6c20.1 5.1 41.2-6.2 47.9-25.6l9.5-27.6c1.4-4 .1-8.5-3.2-11.1s-8.2-2.4-11.7 .2L126.6 231.5z"/>
                     </svg>`,
-                    color: 'text-green-600 dark:text-green-400',
-                    bgColor: 'bg-green-100 dark:bg-green-900/20'
+                    color: 'text-emerald-600 dark:text-emerald-300',
+                    bgColor: 'bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-800/60'
                 };
             }
             
@@ -635,8 +634,8 @@
                     icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 576 512">
                         <path d="M309.5 178.4L447.9 297.1c-1.6 .9-3.2 2-4.8 3.1c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-1.5-1-3.1-2.1-4.6-3L128.1 178.4c0 0 0 0 0 0s0 0 0 0c2.1 1.4 4.2 2.7 6.4 3.9c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0s40.1-12.4 58.2 0c2.2-1.2 4.3-2.5 6.4-3.9zm234.7 60.5c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0zM0 395.3c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4zM224 224a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm96-96a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
                     </svg>`,
-                    color: 'text-cyan-600 dark:text-cyan-400',
-                    bgColor: 'bg-cyan-100 dark:bg-cyan-900/20'
+                    color: 'text-cyan-600 dark:text-cyan-300',
+                    bgColor: 'bg-cyan-500/10 border border-cyan-200/60 dark:border-cyan-800/60'
                 };
             }
             
@@ -645,8 +644,8 @@
                     icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 320 512">
                         <path d="M160 48a48 48 0 1 1 0 96 48 48 0 1 1 0-96zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-7 10.9-12.9 13.4l-15.8 6.8c-8.2 3.5-17.8 .3-21.4-7.9s-.3-17.8 7.9-21.4l15.8-6.8c1.8-.8 3.1-2.3 3.7-4.1z"/>
                     </svg>`,
-                    color: 'text-emerald-600 dark:text-emerald-400',
-                    bgColor: 'bg-emerald-100 dark:bg-emerald-900/20'
+                    color: 'text-teal-600 dark:text-teal-300',
+                    bgColor: 'bg-teal-500/10 border border-teal-200/60 dark:border-teal-800/60'
                 };
             }
             
@@ -655,8 +654,8 @@
                     icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 640 512">
                         <path d="M96 64c0-17.7 14.3-32 32-32h32c17.7 0 32 14.3 32 32V224v64V448c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V384H64c-17.7 0-32-14.3-32-32V288c0-17.7 14.3-32 32-32H96V64zm448 0v192h32c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H544v64c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32V288 224 64c0-17.7 14.3-32 32-32h32c17.7 0 32 14.3 32 32zM416 224V288H224V224H416z"/>
                     </svg>`,
-                    color: 'text-purple-600 dark:text-purple-400',
-                    bgColor: 'bg-purple-100 dark:bg-purple-900/20'
+                    color: 'text-purple-600 dark:text-purple-300',
+                    bgColor: 'bg-purple-500/10 border border-purple-200/60 dark:border-purple-800/60'
                 };
             }
             
@@ -665,8 +664,8 @@
                 icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
                 </svg>`,
-                color: 'text-gray-600 dark:text-gray-400',
-                bgColor: 'bg-gray-100 dark:bg-gray-700'
+                color: 'text-gray-600 dark:text-gray-300',
+                bgColor: 'bg-gray-500/10 border border-gray-300/60 dark:border-gray-700/60'
             };
         }
 
@@ -892,15 +891,10 @@
         document.getElementById('garmin-upload-btn').addEventListener('click', handleGarminSync);
 
         function showStatus(message, type) {
-            uploadStatus.className = `p-4 rounded-md ${type === 'success' ? 'bg-green-100 text-green-800 border border-green-200 dark:bg-green-900 dark:text-green-200 dark:border-green-700' : 
-                                      type === 'warning' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200 dark:bg-yellow-900 dark:text-yellow-200 dark:border-yellow-700' : 
-                                      'bg-red-100 text-red-800 border border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-700'}`;
-            uploadStatus.textContent = message;
-            uploadStatus.classList.remove('hidden');
-            
-            setTimeout(() => {
-                uploadStatus.classList.add('hidden');
-            }, 5000);
+            // Delegate to the global toast-style notification system
+            // Map known types; default to 'info'
+            const toastType = (type === 'success' || type === 'error' || type === 'warning') ? type : 'info';
+            showNotification(message, toastType);
         }
 
         // Load and display workouts
@@ -963,7 +957,8 @@
 
         function createWorkoutElement(workout) {
             const div = document.createElement('div');
-            div.className = 'border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer';
+            // Outer gradient hairline border with hover accent
+            div.className = 'group rounded-2xl p-[1px] bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60 hover:from-blue-200/50 hover:via-cyan-200/40 hover:to-emerald-200/50 dark:hover:from-gray-700/80 dark:hover:via-gray-800/80 dark:hover:to-gray-700/80 transition-colors duration-200 cursor-pointer';
             div.onclick = () => showWorkoutDetails(workout.id);
             
             const startTime = workout.start_time ? formatDateForDisplay(workout.start_time) : 'Unknown';
@@ -972,10 +967,11 @@
             const workoutIcon = getWorkoutTypeIcon(workout.workout_type);
             
             div.innerHTML = `
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center flex-1 space-x-3">
+                <div class="rounded-[15px] p-3 bg-white/80 dark:bg-gray-900/40 backdrop-blur-sm">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center flex-1 gap-3">
                         <!-- Workout Type Icon -->
-                        <div class="flex-shrink-0 w-10 h-10 ${workoutIcon.bgColor} rounded-lg flex items-center justify-center">
+                        <div class="flex-shrink-0 w-10 h-10 ${workoutIcon.bgColor} rounded-lg flex items-center justify-center shadow-sm">
                             <div class="${workoutIcon.color}">
                                 ${workoutIcon.icon}
                             </div>
@@ -984,36 +980,38 @@
                         <!-- Main Content -->
                         <div class="flex-1 min-w-0">
                             <!-- Primary Info: Date and Duration -->
-                            <div class="flex items-center space-x-3 mb-1">
-                                <h4 class="text-base font-semibold text-gray-900 dark:text-white">${startTime}</h4>
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <h4 class="text-sm sm:text-base font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">${startTime}</h4>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold text-blue-700 dark:text-blue-300 bg-white/70 dark:bg-gray-900/40 border border-blue-200/60 dark:border-blue-800/60 backdrop-blur-sm">
                                     ${duration}
                                 </span>
                             </div>
                             
                             <!-- Secondary Info: Distance and Activity Type -->
-                            <div class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300">
+                            <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                                 <span class="font-medium">${distance}</span>
-                                <span>${formatActivityType(workout.workout_type)}</span>
+                                <span class="mx-1.5 text-gray-300 dark:text-gray-600 select-none">•</span>
+                                <span class="truncate">${formatActivityType(workout.workout_type)}</span>
                             </div>
                             
                             <!-- Filename (less visible) -->
-                            <div class="text-xs text-gray-400 dark:text-gray-500 truncate mt-1">
+                            <div class="text-[11px] text-gray-400 dark:text-gray-500 truncate mt-0.5 opacity-0 group-hover:opacity-70 transition-opacity duration-200 hidden sm:block">
                                 ${workout.filename}
                             </div>
                         </div>
                     </div>
                     
                     <!-- Status and Arrow -->
-                    <div class="flex items-center space-x-2 flex-shrink-0">
+                    <div class="flex items-center gap-2 flex-shrink-0">
                         ${workout.processed ? 
-                            '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Processed</span>' : 
-                            '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Processing</span>'
+                            '<span class="inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider text-emerald-600 dark:text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-500/70"></span><span class="hidden md:inline">Processed</span></span>' : 
+                            '<span class="inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider text-amber-600 dark:text-amber-400"><span class="w-2 h-2 rounded-full bg-amber-500/70"></span><span class="hidden md:inline">Processing</span></span>'
                         }
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </div>
+                  </div>
                 </div>
             `;
             
@@ -1441,12 +1439,13 @@
         }
 
         // Notification system
-        function showNotification(message, type = 'info') {
+    function showNotification(message, type = 'info') {
             // Create notification element
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 z-50 max-w-sm w-full px-4 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
                 type === 'success' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700' :
                 type === 'error' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-700' :
+                type === 'warning' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 border border-yellow-200 dark:border-yellow-700' :
                 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700'
             }`;
             
@@ -1460,6 +1459,10 @@
                         ` : type === 'error' ? `
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        ` : type === 'warning' ? `
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M4.93 19h14.14c1.54 0 2.5-1.67 1.73-3L13.73 5c-.77-1.33-2.69-1.33-3.46 0L3.2 16c-.77 1.33 .19 3 1.73 3z"></path>
                             </svg>
                         ` : `
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
