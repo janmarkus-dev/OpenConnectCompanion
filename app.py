@@ -1276,42 +1276,114 @@ def _extract_valid_gps_points(parsed_data):
     return processed
 
 def _build_folium_map(points, theme: str = 'light'):
+    """Return a themed Folium map HTML string matching page light/dark styles."""
+    # Fallback page when no points are available
     if not points:
         is_dark = (theme == 'dark')
-        bg = '#111827' if is_dark else '#f8fafc'
-        fg = '#e5e7eb' if is_dark else '#374151'
+        bg = '#0b1220' if is_dark else '#f8fafc'  # Tailwind-ish gray-950 / slate-50
+        fg = '#e5e7eb' if is_dark else '#1f2937'
+        panel_bg = 'rgba(17,24,39,0.7)' if is_dark else 'rgba(255,255,255,0.9)'
+        border = 'rgba(75,85,99,0.6)' if is_dark else 'rgba(229,231,235,0.7)'
         css = (
-            "body{{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;" 
-            f"background:{bg};color:{fg}}}" 
-            " .box{display:flex;align-items:center;justify-content:center;height:100vh;}"
-        )
-        html = (
+            "html, body { height:100%; margin:0; background:%s; color:%s; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; }"
+            " .box { display:flex; align-items:center; justify-content:center; height:100vh; }"
+            " .note { background:%s; border:1px solid %s; padding:10px 12px; border-radius:10px; backdrop-filter: blur(6px); }"
+        ) % (bg, fg, panel_bg, border)
+        return (
             "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>"
-            f"<style>{css}</style></head><body><div class='box'><div>No GPS data available</div></div></body></html>"
+            f"<style>{css}</style></head><body><div class='box'><div class='note'>No GPS data available</div></div></body></html>"
         )
-        return html
 
+    # Compute bounds/center
     lats = [p['lat'] for p in points]
     lons = [p['lon'] for p in points]
     center = (sum(lats) / len(lats), sum(lons) / len(lons))
 
-    theme = 'dark' if theme == 'dark' else 'light'
-    tiles = 'CartoDB dark_matter' if theme == 'dark' else 'CartoDB positron'
-    line_color = '#60a5fa' if theme == 'dark' else '#3b82f6'
+    # Theme settings
+    mode = 'dark' if theme == 'dark' else 'light'
+    tiles = 'CartoDB dark_matter' if mode == 'dark' else 'CartoDB positron'
+    line_color = '#60a5fa' if mode == 'dark' else '#3b82f6'  # Tailwind blue-400/500
 
-    m = folium.Map(location=center, tiles=tiles, zoom_start=14, control_scale=True)
+    # Base map with explicit tile layer for control over filters
+    m = folium.Map(location=center, tiles=None, zoom_start=14, control_scale=True)
+    folium.TileLayer(tiles=tiles, name='Base', control=False).add_to(m)
 
+    # Path
     coords = [(p['lat'], p['lon']) for p in points]
     folium.PolyLine(coords, color=line_color, weight=4, opacity=0.9).add_to(m)
 
+    # Start/finish markers (minimal circle markers)
     start = coords[0]
     end = coords[-1]
-    folium.Marker(start, tooltip='Start', icon=folium.Icon(color='green', icon='play', prefix='fa')).add_to(m)
-    folium.Marker(end, tooltip='Finish', icon=folium.Icon(color='red', icon='flag-checkered', prefix='fa')).add_to(m)
+    start_fill = '#34d399' if mode == 'dark' else '#10b981'  # emerald-400/green-600
+    end_fill = '#f87171' if mode == 'dark' else '#ef4444'    # red-400/red-500
+    folium.CircleMarker(location=start, radius=6, color='#ffffff', weight=2, fill=True,
+                        fill_color=start_fill, fill_opacity=0.95, tooltip='Start').add_to(m)
+    folium.CircleMarker(location=end, radius=6, color='#ffffff', weight=2, fill=True,
+                        fill_color=end_fill, fill_opacity=0.95, tooltip='Finish').add_to(m)
 
-    m.fit_bounds([ (min(lats), min(lons)), (max(lats), max(lons)) ], padding=(20, 20))
+    # Fit to bounds
+    m.fit_bounds([(min(lats), min(lons)), (max(lats), max(lons))], padding=(20, 20))
 
-    return m.get_root().render()
+    # Inject CSS to align Leaflet controls with page theme
+    html = m.get_root().render()
+    is_dark = (mode == 'dark')
+    panel_bg = 'rgba(17,24,39,0.7)' if is_dark else 'rgba(255,255,255,0.9)'
+    border = 'rgba(75,85,99,0.6)' if is_dark else 'rgba(229,231,235,0.7)'
+    text = '#e5e7eb' if is_dark else '#1f2937'
+    hover = 'rgba(31,41,55,0.7)' if is_dark else 'rgba(243,244,246,0.9)'
+    tile_filter = 'brightness(0.82) contrast(1.05) saturate(0.9)' if is_dark else 'none'
+    extra_css = f"""
+<style>
+  html, body {{ background: transparent; }}
+  .leaflet-container {{ background: transparent; }}
+  .leaflet-bar a, .leaflet-bar a:hover {{ color: {text}; }}
+  .leaflet-control-zoom, .leaflet-control-attribution, .leaflet-control-scale {{
+    background: {panel_bg};
+    border: 1px solid {border};
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    backdrop-filter: blur(6px);
+  }}
+    /* Ensure attribution control background is themed (override Leaflet defaults) */
+    .leaflet-container .leaflet-control-attribution {{
+        background: {panel_bg} !important;
+        border: 1px solid {border} !important;
+        color: {text} !important;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        backdrop-filter: blur(6px);
+    }}
+    .leaflet-container .leaflet-control-attribution a {{
+        color: {text} !important;
+        background: transparent !important;
+    }}
+    /* Scale control inner lines */
+    .leaflet-control-scale .leaflet-control-scale-line {{
+        background: {panel_bg};
+        color: {text};
+        border-color: {border};
+        box-shadow: none;
+    }}
+    .leaflet-control-scale .leaflet-control-scale-line:not(:first-child) {{
+        border-top-color: {border};
+    }}
+  .leaflet-control-zoom a {{
+    background: transparent;
+    border-bottom: 1px solid {border};
+  }}
+  .leaflet-control-zoom a:last-child {{ border-bottom: none; }}
+  .leaflet-bar a:hover {{ background: {hover}; }}
+  .leaflet-control-attribution {{ color: {text}; }}
+  .leaflet-control-attribution a {{ color: inherit; text-decoration: underline; }}
+  .leaflet-tile {{ filter: {tile_filter}; }}
+</style>
+"""
+    if '</head>' in html:
+        html = html.replace('</head>', extra_css + '</head>')
+    else:
+        html = extra_css + html
+    return html
 
 @app.route('/api/workouts/<int:workout_id>/map/folium', methods=['GET'])
 def get_workout_folium_map(workout_id: int):
