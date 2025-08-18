@@ -23,6 +23,40 @@
             }
         }
     </script>
+    <style>
+        /* Compact calendar with date numbers */
+        #contribution-calendar .h-8 {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Hover effects */
+        #contribution-calendar .h-8:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark #contribution-calendar .h-8:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            #contribution-calendar .h-8 {
+                height: 1.75rem; /* 28px */
+                font-size: 0.625rem; /* 10px */
+            }
+            
+            #contribution-calendar .grid {
+                gap: 2px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            #contribution-calendar .h-8 {
+                height: 2.25rem; /* 36px */
+                font-size: 0.75rem; /* 12px */
+            }
+        }
+    </style>
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
@@ -162,6 +196,51 @@
                 </div>
             </div>
 
+            <div class="rounded-2xl mb-6">
+                <div class="p-[1px] rounded-2xl bg-gradient-to-r from-green-200/60 via-emerald-200/60 to-green-200/60 dark:from-gray-700/70 dark:via-gray-800/70 dark:to-gray-700/70">
+                    <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-md bg-green-500/10 border border-green-200/60 dark:border-green-800/60 text-green-600 dark:text-green-300 flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900 dark:text-white">Monthly Activity Calendar</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400" id="calendar-subtitle">Click on any day to view workouts</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-center">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">Current Streak</p>
+                                    <p id="current-streak" class="text-lg font-bold text-green-600 dark:text-green-400">0 days</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">Active Days</p>
+                                    <p id="active-days" class="text-lg font-bold text-emerald-600 dark:text-emerald-400">0 days</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="grid grid-cols-7 gap-1 mb-2 text-xs text-gray-500 dark:text-gray-400">
+                                <div class="text-center py-1 font-medium">Sun</div>
+                                <div class="text-center py-1 font-medium">Mon</div>
+                                <div class="text-center py-1 font-medium">Tue</div>
+                                <div class="text-center py-1 font-medium">Wed</div>
+                                <div class="text-center py-1 font-medium">Thu</div>
+                                <div class="text-center py-1 font-medium">Fri</div>
+                                <div class="text-center py-1 font-medium">Sat</div>
+                            </div>
+
+                            <div id="contribution-calendar" class="w-full">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="rounded-2xl">
                 <div class="p-[1px] rounded-2xl bg-gradient-to-r from-gray-200/60 via-gray-100/40 to-gray-200/60 dark:from-gray-700/60 dark:via-gray-800/60 dark:to-gray-700/60">
                     <div class="rounded-[15px] p-4 bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm">
@@ -204,7 +283,6 @@
                         </div>
                     </div>
                     
-                    <!-- Pagination Controls -->
                     <div id="pagination-controls" class="hidden mt-4 flex items-center justify-between border-t border-gray-200/60 dark:border-gray-700/60 pt-4">
                         <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
                             <span id="pagination-info">Showing 1-15 of 0 workouts</span>
@@ -218,7 +296,6 @@
                                 Previous
                             </button>
                             <div class="flex items-center space-x-1" id="page-numbers">
-                                <!-- Page numbers will be inserted here -->
                             </div>
                             <button 
                                 id="next-page" 
@@ -245,7 +322,20 @@
                 </button>
             </div>
             
-            <div id="modal-content" class="pt-3 max-h-[80vh] overflow-y-auto">
+            <div id="modal-content" class="pt-3 max-h-[80vh] overflow-y-auto relative">
+                <div id="modal-loading" class="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm flex flex-col items-center justify-center z-50 rounded-lg">
+                    <div class="relative">
+                        <svg class="animate-spin w-12 h-12 text-primary-600" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle>
+                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"></path>
+                        </svg>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p class="text-lg font-medium text-gray-700 dark:text-gray-300">Loading workout details...</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Preparing charts and maps</p>
+                    </div>
+                </div>
+                
                 <section id="route-map-section" class="mb-6 hidden">
                     <div class="relative rounded-xl border border-gray-200/60 dark:border-gray-700/60 overflow-hidden">
                         <div id="route-map-container" class="relative h-48 md:h-64 bg-gray-100 dark:bg-gray-700">
@@ -260,13 +350,6 @@
                         </div>
                     </div>
                 </section>
-                <div id="modal-loading" class="flex items-center justify-center py-8">
-                    <svg class="animate-spin w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle>
-                        <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"></path>
-                    </svg>
-                    <span class="ml-2 text-gray-600 dark:text-gray-400">Loading workout details...</span>
-                </div>
                 
                 <div id="modal-workout-data" class="hidden">
                     <div class="mb-4">
@@ -1051,6 +1134,204 @@
             }
         }
 
+        // GitHub-style contribution calendar functionality
+        async function loadContributionCalendar() {
+            try {
+                const res = await fetch('/api/contribution-calendar');
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                renderMonthlyCalendar(data.data, data.month_name);
+                updateCalendarStats(data.data);
+            } catch (err) {
+                console.error('Error loading contribution calendar:', err);
+                // Show fallback message
+                document.getElementById('contribution-calendar').innerHTML = '<div class="col-span-7 text-center text-gray-500 dark:text-gray-400 py-4">Failed to load activity calendar</div>';
+            }
+        }
+
+        function renderMonthlyCalendar(calendarData, monthName) {
+            const calendar = document.getElementById('contribution-calendar');
+            calendar.innerHTML = '';
+
+            // Create a map for quick lookup
+            const dataMap = new Map();
+            calendarData.forEach(day => {
+                dataMap.set(day.date, day);
+            });
+
+            // Get first day of month and determine starting day of week
+            const firstDay = new Date(calendarData[0].date);
+            const startDayOfWeek = firstDay.getDay(); // 0 = Sunday
+            
+            // Calculate how many weeks we need
+            const totalDays = calendarData.length;
+            const totalCells = startDayOfWeek + totalDays;
+            const weeksNeeded = Math.ceil(totalCells / 7);
+
+            // Create week rows
+            for (let week = 0; week < weeksNeeded; week++) {
+                const weekRow = document.createElement('div');
+                weekRow.className = 'grid grid-cols-7 gap-1 mb-1';
+                
+                // Create 7 days for each week
+                for (let day = 0; day < 7; day++) {
+                    const cellIndex = (week * 7) + day;
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'h-8 w-full rounded-md cursor-pointer transition-all duration-200 border border-gray-200 dark:border-gray-600 flex items-center justify-center text-xs font-medium';
+                    
+                    // Check if this is before the first day of the month or after the last day
+                    if (cellIndex < startDayOfWeek || cellIndex >= startDayOfWeek + totalDays) {
+                        // Empty cell - make it invisible
+                        dayElement.className = 'h-8 w-full'; // Just spacing, no background or border
+                        dayElement.style.visibility = 'hidden';
+                    } else {
+                        // This is a valid day in the month
+                        const dayIndex = cellIndex - startDayOfWeek;
+                        const dayData = calendarData[dayIndex];
+                        const date = new Date(dayData.date);
+                        const dayNumber = date.getDate();
+                        
+                        // Add the day number
+                        dayElement.textContent = dayNumber;
+                        
+                        // Simple binary coloring: has workout or not
+                        if (dayData.count === 0) {
+                            dayElement.className += ' bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700';
+                        } else {
+                            dayElement.className += ' bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border-green-300 dark:border-green-700 hover:bg-green-200 dark:hover:bg-green-800';
+                        }
+                        
+                        // Add tooltip
+                        dayElement.title = createTooltipText(dayData, date);
+                        
+                        // Add hover animation
+                        dayElement.addEventListener('mouseenter', function() {
+                            this.style.transform = 'scale(1.05)';
+                            this.style.zIndex = '10';
+                        });
+                        dayElement.addEventListener('mouseleave', function() {
+                            this.style.transform = 'scale(1)';
+                            this.style.zIndex = 'auto';
+                        });
+                        
+                        // Add click handler to show workouts for that day
+                        dayElement.addEventListener('click', () => showWorkoutsForDay(dayData, date));
+                    }
+                    
+                    weekRow.appendChild(dayElement);
+                }
+                
+                calendar.appendChild(weekRow);
+            }
+        }
+
+        function createTooltipText(dayData, date) {
+            const dateStr = date.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            if (dayData.count === 0) {
+                return `No workouts on ${dateStr}`;
+            } else if (dayData.count === 1) {
+                return `1 workout on ${dateStr}`;
+            } else {
+                return `${dayData.count} workouts on ${dateStr}`;
+            }
+        }
+
+        async function showWorkoutsForDay(dayData, date) {
+            if (dayData.count === 0) {
+                const dateStr = date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                alert(`No workouts recorded for ${dateStr}`);
+                return;
+            }
+            
+            // If there's only one workout, show it directly
+            if (dayData.workout_ids.length === 1) {
+                showWorkoutDetails(dayData.workout_ids[0]);
+                return;
+            }
+            
+            // Multiple workouts - show selection dialog
+            const dateStr = date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            try {
+                // Fetch workout details for this day
+                const workoutPromises = dayData.workout_ids.map(id => 
+                    fetch(`/api/workouts/${id}`).then(res => res.json())
+                );
+                const workouts = await Promise.all(workoutPromises);
+                
+                // Create a selection dialog
+                let message = `Select a workout to view from ${dateStr}:\n\n`;
+                workouts.forEach((workout, index) => {
+                    const startTime = workout.start_time ? formatDateForDisplay(workout.start_time) : 'Unknown time';
+                    const duration = workout.duration_seconds ? formatDuration(workout.duration_seconds) : 'Unknown duration';
+                    const distance = workout.distance_meters ? (workout.distance_meters / 1000).toFixed(2) + ' km' : 'Unknown distance';
+                    const type = workout.workout_type || 'Unknown type';
+                    
+                    message += `${index + 1}. ${type} - ${duration} - ${distance}\n`;
+                });
+                
+                const selection = prompt(message + '\nEnter the number of the workout you want to view (1-' + workouts.length + '):');
+                
+                if (selection && !isNaN(selection)) {
+                    const index = parseInt(selection) - 1;
+                    if (index >= 0 && index < workouts.length) {
+                        showWorkoutDetails(workouts[index].id);
+                    }
+                }
+                
+            } catch (err) {
+                console.error('Error fetching workouts for day:', err);
+                alert('Failed to load workout details for this day');
+            }
+        }
+
+        function updateCalendarStats(calendarData) {
+            // Calculate active days (days with workouts)
+            const activeDays = calendarData.filter(day => day.count > 0).length;
+            document.getElementById('active-days').textContent = `${activeDays} day${activeDays !== 1 ? 's' : ''}`;
+            
+            // Calculate current streak (from today backwards)
+            let currentStreak = 0;
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            // Find today's index in the calendar data
+            let todayIndex = -1;
+            for (let i = 0; i < calendarData.length; i++) {
+                if (calendarData[i].date === todayStr) {
+                    todayIndex = i;
+                    break;
+                }
+            }
+            
+            // If today is found, count backwards from today
+            if (todayIndex >= 0) {
+                for (let i = todayIndex; i >= 0; i--) {
+                    if (calendarData[i].count > 0) {
+                        currentStreak++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            
+            document.getElementById('current-streak').textContent = `${currentStreak} day${currentStreak !== 1 ? 's' : ''}`;
+        }
+
         const PRESET_TAGS = ['Commute','Zone 2','Intervals','Ride'];
         let knownTagSet = new Set(PRESET_TAGS);
         
@@ -1084,16 +1365,13 @@
                 <div class="rounded-[15px] p-3 bg-white/80 dark:bg-gray-900/40 backdrop-blur-sm">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center flex-1 gap-3">
-                        <!-- Workout Type Icon -->
                         <div class="flex-shrink-0 w-10 h-10 ${workoutIcon.bgColor} rounded-lg flex items-center justify-center shadow-sm">
                             <div class="${workoutIcon.color}">
                                 ${workoutIcon.icon}
                             </div>
                         </div>
                         
-                        <!-- Main Content -->
                         <div class="flex-1 min-w-0">
-                            <!-- Primary Info: Name/Date and Duration -->
                             <div class="flex items-center gap-2 mb-0.5">
                                 <h4 class="text-sm sm:text-base font-semibold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent truncate">${displayName || startTime}</h4>
                                 ${displayName ? `<span class="text-[11px] text-gray-400 dark:text-gray-500 truncate max-w-[30ch] hidden sm:inline">${startTime}</span>` : ''}
@@ -1102,7 +1380,6 @@
                                 </span>
                             </div>
                             
-                            <!-- Secondary Info: Distance, Activity Type, Tags -->
                             <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                                 <span class="font-medium">${distance}</span>
                                 <span class="mx-1.5 text-gray-300 dark:text-gray-600 select-none">•</span>
@@ -1119,14 +1396,12 @@
                                 })()}
                             </div>
                             
-                            <!-- Filename (less visible) -->
                             <div class="text-[11px] text-gray-400 dark:text-gray-500 truncate mt-0.5 opacity-0 group-hover:opacity-70 transition-opacity duration-200 hidden sm:block">
                                 ${workout.filename}
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Status and Arrow -->
+
                     <div class="flex items-center gap-2 flex-shrink-0">
                         ${workout.processed ? 
                             '<span class="inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider text-emerald-600 dark:text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-500/70"></span><span class="hidden md:inline">Processed</span></span>' : 
@@ -1173,8 +1448,11 @@
                 const workout = await response.json();
                 populateWorkoutModal(workout);
                 
-                modalLoading.classList.add('hidden');
-                modalData.classList.remove('hidden');
+                // Wait a bit more before hiding the loading spinner to let charts start loading
+                setTimeout(() => {
+                    modalLoading.classList.add('hidden');
+                    modalData.classList.remove('hidden');
+                }, 300);
                 
             } catch (error) {
                 console.error('Error loading workout details:', error);
@@ -1806,6 +2084,7 @@
     renderTagFilterBar();
     loadWorkouts(1);
     loadMonthlySummary();
+    loadContributionCalendar();
 
         const dropZone = document.querySelector('main');
         

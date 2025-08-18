@@ -1235,6 +1235,105 @@ def get_monthly_summary():
         logger.error(f"Error computing monthly summary: {str(e)}")
         return jsonify({'error': 'Failed to compute monthly summary'}), 500
 
+@app.route('/api/contribution-calendar', methods=['GET'])
+def get_contribution_calendar():
+    """Get workout data for GitHub-style contribution calendar (current month only)"""
+    try:
+        user_tz = detect_user_timezone()
+        now_local = datetime.now(user_tz)
+        
+        # Start of current month
+        start_of_month_local = now_local.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        # Start of next month
+        if start_of_month_local.month == 12:
+            start_of_next_month_local = start_of_month_local.replace(year=start_of_month_local.year + 1, month=1)
+        else:
+            start_of_next_month_local = start_of_month_local.replace(month=start_of_month_local.month + 1)
+        
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('SELECT id, start_time, duration_seconds, distance_meters, total_calories, workout_type FROM workouts WHERE processed = TRUE')
+        rows = cur.fetchall()
+        conn.close()
+        
+        # Initialize daily data structure for the current month
+        daily_data = {}
+        current_date = start_of_month_local.date()
+        end_date = (start_of_next_month_local - timedelta(days=1)).date()
+        
+        # Create entry for every day in the current month
+        while current_date <= end_date:
+            daily_data[current_date.isoformat()] = {
+                'date': current_date.isoformat(),
+                'count': 0,
+                'distance': 0.0,
+                'duration': 0,
+                'calories': 0,
+                'activities': [],
+                'workout_ids': []
+            }
+            current_date += timedelta(days=1)
+        
+        # Process workouts and group by date
+        for row in rows:
+            workout_id = row[0]
+            start_time_str = row[1]
+            if not start_time_str:
+                continue
+                
+            dt = parse_timestamp_with_timezone(start_time_str)
+            if not dt:
+                continue
+                
+            dt_local = convert_utc_to_local(dt, user_tz)
+            workout_date = dt_local.date()
+            
+            # Only include workouts from the current month
+            if start_of_month_local.date() <= workout_date < start_of_next_month_local.date():
+                date_key = workout_date.isoformat()
+                if date_key in daily_data:
+                    daily_data[date_key]['count'] += 1
+                    daily_data[date_key]['workout_ids'].append(workout_id)
+                    
+                    if row[3] is not None:  # distance_meters
+                        daily_data[date_key]['distance'] += float(row[3]) / 1000  # Convert to km
+                    
+                    if row[2] is not None:  # duration_seconds
+                        daily_data[date_key]['duration'] += int(row[2])
+                    
+                    if row[4] is not None:  # total_calories
+                        daily_data[date_key]['calories'] += int(row[4])
+                    
+                    if row[5]:  # workout_type
+                        daily_data[date_key]['activities'].append(row[5])
+        
+        # Convert to sorted list
+        calendar_data = []
+        for date_str in sorted(daily_data.keys()):
+            data = daily_data[date_str]
+            
+            calendar_data.append({
+                'date': data['date'],
+                'count': data['count'],
+                'distance': round(data['distance'], 2),
+                'duration': data['duration'],
+                'calories': data['calories'],
+                'activities': list(set(data['activities'])),  # Remove duplicates
+                'workout_ids': data['workout_ids']
+            })
+        
+        return jsonify({
+            'data': calendar_data,
+            'start_date': start_of_month_local.date().isoformat(),
+            'end_date': end_date.isoformat(),
+            'total_days': len(calendar_data),
+            'month_name': start_of_month_local.strftime('%B %Y')
+        })
+        
+    except Exception as e:
+        logger.error(f"Error generating contribution calendar: {str(e)}")
+        return jsonify({'error': 'Failed to generate contribution calendar'}), 500
+
 @app.route('/api/timezone', methods=['GET'])
 def get_timezone_info():
     try:
