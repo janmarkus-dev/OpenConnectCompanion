@@ -58,10 +58,8 @@
                     </div>
                     
                     <button id="garmin-upload-btn" class="inline-flex items-center px-3 py-2 border border-orange-300/70 dark:border-orange-600/70 text-sm font-medium rounded-md text-orange-700 dark:text-orange-300 bg-orange-50/70 dark:bg-orange-900/20 hover:bg-orange-100/80 dark:hover:bg-orange-900/40 transition-colors duration-200 backdrop-blur-sm">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        Sync Garmin
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path fill="currentColor" d="M4.308 13.5q-.214 0-.357-.143q-.143-.144-.143-.357V8q0-.213.143-.357q.143-.143.357-.143q.213 0 .356.143q.144.144.144.357v5q0 .213-.144.357q-.143.143-.356.143Zm15.384 3q-.213 0-.356-.143q-.144-.144-.144-.357v-5q0-.213.144-.357q.143-.143.356-.143q.214 0 .357.143q.143.144.143.357v5q0 .213-.143.357q-.143.143-.357.143ZM8.423 21q-.69 0-1.153-.463q-.462-.462-.462-1.152V4.615q0-.69.462-1.153Q7.733 3 8.423 3h7.154q.69 0 1.153.463q.462.462.462 1.152v14.77q0 .69-.462 1.152q-.463.463-1.153.463H8.423Zm7.77-2.5H7.807v.885q0 .23.192.423q.192.192.423.192h7.154q.23 0 .423-.192q.192-.193.192-.423V18.5Zm-8.385-13h8.384v-.885q0-.23-.192-.423Q15.808 4 15.577 4H8.423q-.23 0-.423.192q-.192.193-.192.423V5.5Zm0 0V4v1.5Zm0 13V20v-1.5Zm0-1h8.384v-11H7.808v11Z"/></svg>
+                        Sync Device 
                     </button>
                     
                 <button 
@@ -203,6 +201,32 @@
                     <div id="workouts-list" class="space-y-2">
                         <div class="text-center py-8 text-gray-500 dark:text-gray-400">
                             Loading workouts...
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination Controls -->
+                    <div id="pagination-controls" class="hidden mt-4 flex items-center justify-between border-t border-gray-200/60 dark:border-gray-700/60 pt-4">
+                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                            <span id="pagination-info">Showing 1-15 of 0 workouts</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button 
+                                id="prev-page" 
+                                class="px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/60 border border-gray-200/60 dark:border-gray-700/60 rounded-md hover:bg-gray-50/80 dark:hover:bg-gray-700/60 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                                disabled
+                            >
+                                Previous
+                            </button>
+                            <div class="flex items-center space-x-1" id="page-numbers">
+                                <!-- Page numbers will be inserted here -->
+                            </div>
+                            <button 
+                                id="next-page" 
+                                class="px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/60 border border-gray-200/60 dark:border-gray-700/60 rounded-md hover:bg-gray-50/80 dark:hover:bg-gray-700/60 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                                disabled
+                            >
+                                Next
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -582,9 +606,7 @@
             // Common workout type mappings with Font Awesome icons
             if (type.includes('cycling') || type.includes('bike') || type.includes('biking')) {
                 return {
-                    icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 640 512">
-                        <path d="M312 32c-13.3 0-24 10.7-24 24s10.7 24 24 24h25.7l34.6 64H222.9l-27.4-38C191 99.7 183.7 96 176 96H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h43.7l22.1 30.7-26.6 53.1c-10-2.5-20.5-3.8-31.2-3.8C57.3 224 0 281.3 0 352s57.3 128 128 128c65.3 0 119.1-48.9 127-112h49c7.9 63.1 61.7 112 127 112c70.7 0 128-57.3 128-128s-57.3-128-128-128c-13.5 0-26.5 2.1-38.7 6L375.4 48.8C369.8 38.4 359 32 347.2 32H312zM458.6 303.7l32.3 64.5c1.7 3.4 6.1 6.2 11.2 6.2c6.5 0 11.7-5.2 11.7-11.7c0-1.7-.4-3.3-1.1-4.6l-32.2-64.5C491.8 297.1 475.2 300 458.6 303.7zM128 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128zm256 64a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/>
-                    </svg>`,
+                    icon: `<svg width="21" height="21" viewBox="0 0 24 24"><path fill="currentColor" d="M15.792 3.616a1.25 1.25 0 1 0-1.768 1.768a1.25 1.25 0 0 0 1.768-1.768m1.276 6.602a.75.75 0 1 0 .088-1.497l-2.082-.122a.75.75 0 0 1-.636-.432l-.784-1.68a1.593 1.593 0 0 0-2.568-.452L8.429 8.693a1.61 1.61 0 0 0 .386 2.562l2.056 1.089a.75.75 0 0 1 .399.668l-.018 2.659a.75.75 0 0 0 1.5.01l.018-2.66a2.25 2.25 0 0 0-1.197-2.003l-1.272-.673l2.385-2.387l.394.843a2.25 2.25 0 0 0 1.907 1.295z"/><path fill="currentColor" fill-rule="evenodd" d="M2 15.75a3.75 3.75 0 1 1 7.5 0a3.75 3.75 0 0 1-7.5 0m3.75-2.25a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5m12.5-1.5a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5M16 15.75a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0" clip-rule="evenodd"/></svg>`,
             color: 'text-blue-600 dark:text-blue-300',
             bgColor: 'bg-blue-500/10 border border-blue-200/60 dark:border-blue-800/60'
                 };
@@ -592,9 +614,7 @@
             
             if (type.includes('running') || type.includes('run') || type.includes('jog')) {
                 return {
-                    icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 448 512">
-                        <path d="M320 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM125.7 175.5c9.9-9.9 23.4-15.5 37.5-15.5c1.9 0 3.8 .1 5.6 .3L137.6 254c-9.3 28.1-33.7 47.3-62.2 48.6c-15 .7-30.8-2.9-43.9-12.6C9.3 276.2-2.4 249-2.4 249s27.2-11.7 41-27.5c13.9-15.9 14.6-33.9 16.7-40.9c4.4-14.9 15.2-26.3 29.5-31.8c14.3-5.5 30.7-2.8 42.4 6.8zM173.3 148.7c2 1.9 4.7 2.8 7.5 2.8c2.6 0 5.1-.7 7.2-2.2l115.6-81.6c5.2-3.7 12.6-2.5 16.3 2.6s2.5 12.6-2.6 16.3L201.7 167.9c-9.1 6.4-20.9 5.3-28.6-2.3c-7.8-7.8-7.8-20.5 0-28.3zM126.6 231.5l-25.9 77.8c-1.6 4.7-5.4 8.4-10.2 9.9l-48.8 15.1c-7.2 2.2-14.9-1.8-17.1-9s1.8-14.9 9-17.1l41.7-12.9L101.7 213c7.5-22.5 30.3-36.7 54.4-34l47.4 5.3c13.3 1.5 26-4.8 33.2-16.3l23.7-37.2c4.4-6.9 13.8-9.1 20.7-4.7s9.1 13.8 4.7 20.7l-23.7 37.2c-13.9 21.8-38.2 34.9-63.9 34.5l-9.7-1.1c-5.1-.6-9.4 3.1-10 8.1s3.1 9.4 8.1 10l9.7 1.1c35.8 4 68.9-15.9 87.4-52.4l23.7-37.2c10.4-16.3 32.8-21.1 49.1-10.7s21.1 32.8 10.7 49.1l-23.7 37.2c-24.4 38.3-67.7 58.6-113.4 53.4c-13.2-1.5-26.3 5.4-32.6 17.1L89 409.5c-3.5 6.5-11.6 8.9-18.1 5.4s-8.9-11.6-5.4-18.1L87.9 342c11.2-20.9 35.5-31.5 58.6-25.6c20.1 5.1 41.2-6.2 47.9-25.6l9.5-27.6c1.4-4 .1-8.5-3.2-11.1s-8.2-2.4-11.7 .2L126.6 231.5z"/>
-                    </svg>`,
+                    icon: `<svg width="21" height="21" viewBox="0 0 344 464"><path fill="currentColor" d="M226.5 85Q209 85 196 72.5t-13-30t13-30T226.5 0t30 12.5t12.5 30t-12.5 30t-30 12.5zM149 381L0 352l9-43l104 21l34-173l-38 15v73H66V145l111-47q3 0 8.5-1t8.5-1q22 0 36 21l22 34q13 23 37.5 37t53.5 14v43q-71 0-117-53l-13 64l45 42v160h-43V330l-44-42z"/></svg>`,
                     color: 'text-emerald-600 dark:text-emerald-300',
                     bgColor: 'bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-800/60'
                 };
@@ -602,9 +622,7 @@
             
             if (type.includes('swimming') || type.includes('swim')) {
                 return {
-                    icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 576 512">
-                        <path d="M309.5 178.4L447.9 297.1c-1.6 .9-3.2 2-4.8 3.1c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-18.1 12.4-40.1 12.4-58.2 0c-18.1-12.4-40.1-12.4-58.2 0c-1.5-1-3.1-2.1-4.6-3L128.1 178.4c0 0 0 0 0 0s0 0 0 0c2.1 1.4 4.2 2.7 6.4 3.9c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0s40.1-12.4 58.2 0c2.2-1.2 4.3-2.5 6.4-3.9zm234.7 60.5c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0zM0 395.3c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c18.1-12.4 40.1-12.4 58.2 0c18.1 12.4 40.1 12.4 58.2 0c8.1-5.6 19.2-3.7 24.8 4.4s3.7 19.2-4.4 24.8c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-6.6-4.5-14.7-4.5-21.2 0c-9.5 6.5-20.3 9.7-31.1 9.7s-21.6-3.2-31.1-9.7c-8.1-5.6-10-16.6-4.4-24.8s16.6-10 24.8-4.4zM224 224a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm96-96a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
-                    </svg>`,
+                    icon: `<svg width="21" height="21" viewBox="0 0 15 15"><path fill="currentColor" d="M10.111 2c-.112 0-.435.147-.435.147l-3.322 1.68c-.443.175-.618.881-.352 1.234l.97 1.408l-3.97 2.029L5 9.998l2.502-1.5l2.5 1.5l1.002-1.002l-3-4l2.557-1.53c.528-.266.443-.704.443-.97C11 2.286 10.644 2 10.111 2zm2.141 3a1.75 1.75 0 1 0-.003 3.501A1.75 1.75 0 0 0 12.252 5zM2.5 10L0 11.5V13l2.5-1.5L5 13l2.502-1.5l2.5 1.5L12 11.5l3 1.5v-1.5L12 10l-1.998 1.5l-2.5-1.5L5 11.5L2.5 10z"/></svg>`,
                     color: 'text-cyan-600 dark:text-cyan-300',
                     bgColor: 'bg-cyan-500/10 border border-cyan-200/60 dark:border-cyan-800/60'
                 };
@@ -612,9 +630,7 @@
             
             if (type.includes('walking') || type.includes('walk') || type.includes('hiking') || type.includes('hike')) {
                 return {
-                    icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 320 512">
-                        <path d="M160 48a48 48 0 1 1 0 96 48 48 0 1 1 0-96zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-7 10.9-12.9 13.4l-15.8 6.8c-8.2 3.5-17.8 .3-21.4-7.9s-.3-17.8 7.9-21.4l15.8-6.8c1.8-.8 3.1-2.3 3.7-4.1z"/>
-                    </svg>`,
+                    icon: `<svg width="21" height="21" viewBox="0 0 100 100"><path id="gisHiker0" fill="currentColor" fill-opacity="1" fill-rule="evenodd" stroke="none" stroke-dasharray="1.029 .514" stroke-dashoffset="5.041" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" stroke-opacity="1" stroke-width=".514" d="M46.43 7.5c4.055 0 7.337 3.379 7.337 7.434c0 4.054-3.282 7.433-7.337 7.433s-7.434-3.379-7.434-7.433c0-4.055 3.38-7.434 7.434-7.434zm.483 15.543c2.79-.087 4.947 1.649 6.082 3.476l7.723 12.84l13.516 5.696c3.861 1.64 2.027 6.757-2.317 5.599a5.015 5.015 0 0 0-.483-.29l-9.075 20.08s2.896 6.662 6.565 14.193c3.572 7.626-5.117 10.909-8.303 3.861l-3.185-7.144l-4.634 10.137l-1.931-.869l5.406-11.778l-9.075-19.79c-.386.096-.772 0-1.255 0c0 0-10.523 23.941-13.42 30.217c-2.799 6.275-11.101 2.51-8.302-3.67c2.8-6.178 16.123-36.202 16.123-36.202l-9.903.162c-1.5.013-1.859-.226-1.954-1.35c-.153-2.97-.415-9.958.272-13.197c.886-4.175 1.415-8.77 4.344-10.137c2.93-1.367 8.013 2.414 8.013 2.414c.772-2.51 3.186-4.248 5.793-4.248zm5.985 15.06V49.69l8.303 18.15l8.302-18.247l-12.067-5.02c-.58-.29-1.062-.676-1.449-1.255z" color="currentColor" color-interpolation="sRGB" color-rendering="auto" display="inline" opacity="1" vector-effect="none" visibility="visible"/></svg>`,
                     color: 'text-teal-600 dark:text-teal-300',
                     bgColor: 'bg-teal-500/10 border border-teal-200/60 dark:border-teal-800/60'
                 };
@@ -622,9 +638,7 @@
             
             if (type.includes('strength') || type.includes('weight') || type.includes('training') || type.includes('gym')) {
                 return {
-                    icon: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 640 512">
-                        <path d="M96 64c0-17.7 14.3-32 32-32h32c17.7 0 32 14.3 32 32V224v64V448c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V384H64c-17.7 0-32-14.3-32-32V288c0-17.7 14.3-32 32-32H96V64zm448 0v192h32c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H544v64c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32V288 224 64c0-17.7 14.3-32 32-32h32c17.7 0 32 14.3 32 32zM416 224V288H224V224H416z"/>
-                    </svg>`,
+                    icon: `<svg width="21" height="21" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5c-1.11 0-2 .89-2 2s.89 2 2 2s2-.89 2-2s-.89-2-2-2m10-4v5h-2V4H4v2H2V1h2v2h16V1h2m-7 10.26V23h-2v-5h-2v5H9V11.26C6.93 10.17 5.5 8 5.5 5.5V5h2v.5C7.5 8 9.5 10 12 10s4.5-2 4.5-4.5V5h2v.5c0 2.5-1.43 4.67-3.5 5.76Z"/></svg>`,
                     color: 'text-purple-600 dark:text-purple-300',
                     bgColor: 'bg-purple-500/10 border border-purple-200/60 dark:border-purple-800/60'
                 };
@@ -803,11 +817,11 @@
             // Show status
             if (successCount > 0 && errorCount === 0) {
                 showStatus(`Successfully uploaded ${successCount} file(s).`, 'success');
-                loadWorkouts(); // Refresh workout list
+                loadWorkouts(1); // Refresh workout list
                 loadStats(); // Refresh stats
             } else if (successCount > 0 && errorCount > 0) {
                 showStatus(`Uploaded ${successCount} file(s), ${errorCount} failed.`, 'warning');
-                loadWorkouts();
+                loadWorkouts(1);
                 loadStats();
             } else {
                 showStatus(`Failed to upload ${errorCount} file(s). ${errorMessages.join('; ')}`, 'error');
@@ -848,7 +862,7 @@
                 } else if (result.files_uploaded > 0) {
                     const message = `Successfully synced ${result.files_uploaded} workout(s) from your Garmin device${result.files_skipped > 0 ? ` (${result.files_skipped} already existed)` : ''}.`;
                     showStatus(message, 'success');
-                    loadWorkouts(); // Refresh workout list
+                    loadWorkouts(1); // Refresh workout list
                     loadStats(); // Refresh stats
                 } else if (result.files_found === 0) {
                     showStatus('No .FIT files found in the Activities folder on your Garmin device.', 'warning');
@@ -876,15 +890,23 @@
             showNotification(message, toastType);
         }
 
-        async function loadWorkouts() {
+        async function loadWorkouts(page = 1) {
             try {
-                const qs = new URLSearchParams({ limit: '10' });
+                currentPage = page;
+                const offset = (page - 1) * workoutsPerPage;
+                const qs = new URLSearchParams({ 
+                    limit: workoutsPerPage.toString(),
+                    offset: offset.toString()
+                });
+                
                 if (typeof activeTagFilter === 'string' && activeTagFilter.trim()) {
                     qs.set('tag', activeTagFilter.trim());
                 }
+                
                 const response = await fetch('/api/workouts?' + qs.toString());
                 const data = await response.json();
                 
+                totalWorkouts = data.total_count || 0;
                 const workoutsList = document.getElementById('workouts-list');
                 
                 if (data.workouts && data.workouts.length > 0) {
@@ -900,13 +922,100 @@
                         } catch {}
                     });
                     renderTagFilterBar();
+                    renderPaginationControls();
                 } else {
                     workoutsList.innerHTML = '<div class="text-center py-8 text-gray-500 dark:text-gray-400">No workouts found. Upload some FIT files to get started!</div>';
+                    hidePaginationControls();
                 }
             } catch (error) {
                 console.error('Error loading workouts:', error);
                 document.getElementById('workouts-list').innerHTML = '<div class="text-center py-8 text-red-500">Error loading workouts.</div>';
+                hidePaginationControls();
             }
+        }
+
+        function renderPaginationControls() {
+            const totalPages = Math.ceil(totalWorkouts / workoutsPerPage);
+            
+            if (totalPages <= 1) {
+                hidePaginationControls();
+                return;
+            }
+            
+            const paginationControls = document.getElementById('pagination-controls');
+            const paginationInfo = document.getElementById('pagination-info');
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
+            const pageNumbers = document.getElementById('page-numbers');
+            
+            // Update pagination info
+            const startItem = (currentPage - 1) * workoutsPerPage + 1;
+            const endItem = Math.min(currentPage * workoutsPerPage, totalWorkouts);
+            paginationInfo.textContent = `Showing ${startItem}-${endItem} of ${totalWorkouts} workouts`;
+            
+            // Update prev/next buttons
+            prevButton.disabled = currentPage <= 1;
+            nextButton.disabled = currentPage >= totalPages;
+            
+            // Generate page numbers
+            pageNumbers.innerHTML = '';
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // Add first page and ellipsis if needed
+            if (startPage > 1) {
+                addPageButton(1);
+                if (startPage > 2) {
+                    addEllipsis();
+                }
+            }
+            
+            // Add visible page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                addPageButton(i);
+            }
+            
+            // Add ellipsis and last page if needed
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    addEllipsis();
+                }
+                addPageButton(totalPages);
+            }
+            
+            paginationControls.classList.remove('hidden');
+        }
+        
+        function addPageButton(pageNum) {
+            const pageNumbers = document.getElementById('page-numbers');
+            const button = document.createElement('button');
+            button.className = `px-3 py-1.5 text-sm font-medium rounded-md transition-colors duration-200 ${
+                pageNum === currentPage 
+                    ? 'bg-primary-500 text-white' 
+                    : 'text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/60 border border-gray-200/60 dark:border-gray-700/60 hover:bg-gray-50/80 dark:hover:bg-gray-700/60'
+            }`;
+            button.textContent = pageNum.toString();
+            button.onclick = () => loadWorkouts(pageNum);
+            pageNumbers.appendChild(button);
+        }
+        
+        function addEllipsis() {
+            const pageNumbers = document.getElementById('page-numbers');
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'px-2 py-1.5 text-sm text-gray-400 dark:text-gray-500';
+            ellipsis.textContent = '...';
+            pageNumbers.appendChild(ellipsis);
+        }
+        
+        function hidePaginationControls() {
+            const paginationControls = document.getElementById('pagination-controls');
+            paginationControls.classList.add('hidden');
         }
 
         async function loadMonthlySummary() {
@@ -1108,7 +1217,7 @@
                     const result = await resp.json();
                     if (!resp.ok) throw new Error(result.error || 'Rename failed');
                     span.textContent = name;
-                    await loadWorkouts();
+                    await loadWorkouts(currentPage);
                     showNotification('Workout renamed', 'success');
                 } catch (e) {
                     console.error('Rename failed:', e);
@@ -1496,7 +1605,7 @@
                         
                         showNotification('Workout deleted successfully', 'success');
                         
-                        await loadWorkouts();
+                        await loadWorkouts(1);
                         
                     } catch (error) {
                         console.error('Error deleting workout:', error);
@@ -1556,7 +1665,7 @@
                         (tags || []).forEach(t => { if (typeof t === 'string' && t.trim()) knownTagSet.add(t.trim()); });
                         renderTagFilterBar();
                     } catch {}
-                    await loadWorkouts();
+                    await loadWorkouts(currentPage);
                     showNotification('Tags updated', 'success');
                 } catch (e) {
                     console.error('Save tags failed', e);
@@ -1585,6 +1694,12 @@
         }
 
         let activeTagFilter = '';
+        
+        // Pagination variables
+        let currentPage = 1;
+        let totalWorkouts = 0;
+        const workoutsPerPage = 15;
+        
         function renderTagFilterBar() {
             const bar = document.getElementById('tag-filter-chips');
             if (!bar) return;
@@ -1592,14 +1707,14 @@
             const allChip = document.createElement('button');
             allChip.className = `px-2 py-1 text-xs rounded-full border ${!activeTagFilter ? 'bg-primary-50/70 dark:bg-gray-800/60 text-primary-700 dark:text-primary-300 border-primary-500/30 dark:border-primary-600/40' : 'bg-white/80 dark:bg-gray-900/50 text-gray-700 dark:text-gray-200 border-gray-200/60 dark:border-gray-700/60'}`;
             allChip.textContent = 'All';
-            allChip.onclick = () => { activeTagFilter=''; loadWorkouts(); renderTagFilterBar(); };
+            allChip.onclick = () => { activeTagFilter=''; currentPage = 1; loadWorkouts(1); renderTagFilterBar(); };
             bar.appendChild(allChip);
             Array.from(knownTagSet).sort((a,b)=>a.localeCompare(b)).forEach(pt => {
                 const btn = document.createElement('button');
                 const active = activeTagFilter.toLowerCase() === pt.toLowerCase();
                 btn.className = `px-2 py-1 text-xs rounded-full border ${active ? 'bg-primary-50/70 dark:bg-gray-800/60 text-primary-700 dark:text-primary-300 border-primary-500/30 dark:border-primary-600/40' : 'bg-white/80 dark:bg-gray-900/50 text-gray-700 dark:text-gray-200 border-gray-200/60 dark:border-gray-700/60'}`;
                 btn.textContent = pt;
-                btn.onclick = () => { activeTagFilter = pt; loadWorkouts(); renderTagFilterBar(); };
+                btn.onclick = () => { activeTagFilter = pt; currentPage = 1; loadWorkouts(1); renderTagFilterBar(); };
                 bar.appendChild(btn);
             });
         }
@@ -1669,10 +1784,27 @@
             }
         });
 
-        document.getElementById('refresh-workouts').addEventListener('click', loadWorkouts);
+        document.getElementById('refresh-workouts').addEventListener('click', () => {
+            currentPage = 1;
+            loadWorkouts(1);
+        });
+        
+        // Pagination event listeners
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                loadWorkouts(currentPage - 1);
+            }
+        });
+        
+        document.getElementById('next-page').addEventListener('click', () => {
+            const totalPages = Math.ceil(totalWorkouts / workoutsPerPage);
+            if (currentPage < totalPages) {
+                loadWorkouts(currentPage + 1);
+            }
+        });
 
     renderTagFilterBar();
-    loadWorkouts();
+    loadWorkouts(1);
     loadMonthlySummary();
 
         const dropZone = document.querySelector('main');
