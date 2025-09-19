@@ -11,12 +11,16 @@ import pytz
 from tzlocal import get_localzone
 import folium
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="/var/lib/openconnectcompanion/templates"
+)
+
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 app.config['DEBUG'] = True
-app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'raw_files')
-app.config['DATABASE_PATH'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'workouts.db')
+app.config['UPLOAD_FOLDER'] = os.path.join("/var/lib/openconnectcompanion", "raw_files")
+app.config['DATABASE_PATH'] = os.path.join("/var/lib/openconnectcompanion", "workouts.db")
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
